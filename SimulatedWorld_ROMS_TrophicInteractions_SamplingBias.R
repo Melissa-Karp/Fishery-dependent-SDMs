@@ -3,8 +3,9 @@
 #Species B: distribution and abundance drivn by SST and Species A
 #EM for Species b: only have chl-a and temp as covariates. 
 ## Switch to Spring Averages 
-
+## add in Sampling Bias to simulate fishery dependent data collection
 #Note only using GFDL for now
+
 #temporary: set directory for running an example online
 #dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS"
 
