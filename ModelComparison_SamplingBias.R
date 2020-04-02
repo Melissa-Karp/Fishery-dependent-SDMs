@@ -1,7 +1,5 @@
-#This code uses output from SimulatedWorld_ROMS_TrophicInteraction_function to build a GAM
-#Species A: distribution and abundance drivn by SST and Chl-a
-#Species B: distribution and abundance drivn by SST and Species A
-#EM for Species b: only have chl-a and temp as covariates. 
+#This code uses output from SimulateWorld_ROMS_SB function to build a GAM
+#Species A: distribution and abundance drivn by SST
 ### SAMPLING BIAS###
 #Note only using GFDL for now
 
