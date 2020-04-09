@@ -1,7 +1,5 @@
 #This code replicates SimulatedWorld_ROMS_function, but adds in a trophic interaction, where:
-#Species A: distribution and abundance drivn by SST and Chl-a
-#Species B: distribution and abundance drivn by SST and Species A
-#EM for Species b: only have chl-a and temp as covariates. 
+#Species A: distribution and abundance drivn by SST
 ## Switch to Spring Averages 
 
 #Note only using GFDL for now
@@ -16,7 +14,7 @@ SimulateWorld_ROMS_SB <- function(dir){
   library(rgeos)
   
   #----IMPORTANT----
-  #Download ROMS data from here: https://www.dropbox.com/sh/aaezimxwq3glwdy/AABHmZbmfjVJM7R4jcHCi4c9a?dl=0
+  #Download ROMS (spring averages) data from here:  https://www.dropbox.com/sh/pj1vjz4h1n27hnb/AAD9sySDudMKmq3l4yLPvjQra?dl=0
   
   # #----Create output file----
   #####Needs to be modified as variables are added. Starting with sst
@@ -25,9 +23,7 @@ SimulateWorld_ROMS_SB <- function(dir){
   colnames(output) <- c("lon","lat","year","pres","suitability","sst")
   
   #----Load in rasters----
-  files_sst <- list.files(paste0(dir,'/sst_monthly'), full.names = TRUE, pattern=".grd") #should be 1452 files
-  files_chl <- list.files(paste0(dir,'/chl_surface'), full.names = TRUE, pattern=".grd") #should be 1452 files
-  months <- rep(1:12,121) 
+  files_sst <- list.files(paste0(dir,'/sst_spring_avg'), full.names = TRUE, pattern=".grd") #should be 121 files?
   years <- seq(1980,2100,1)
   
   #loop through each year
@@ -35,10 +31,7 @@ SimulateWorld_ROMS_SB <- function(dir){
     print(paste0("Creating environmental simulation for Year ",years[y]))
     
     sst <- raster(files_sst[y])
-    chla <- raster(files_chl[y])
-    chla <- log(chla)
     #plot(sst)
-    #plot(chla)
     # 
     #----SPECIES A: assign response curve----
     #Species A: likes medium temps
