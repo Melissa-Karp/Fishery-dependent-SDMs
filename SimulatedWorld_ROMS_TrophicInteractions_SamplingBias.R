@@ -17,8 +17,8 @@ SimulateWorld_ROMS_TrophicInteraction_SB <- function(dir){
   library(rgeos)
   
   #----IMPORTANT----
-  #Download ROMS data from here: https://www.dropbox.com/sh/aaezimxwq3glwdy/AABHmZbmfjVJM7R4jcHCi4c9a?dl=0
-  
+  #Download spring averages ROMS data from here: https://www.dropbox.com/sh/pj1vjz4h1n27hnb/AAD9sySDudMKmq3l4yLPvjQra?dl=0
+    
   # #----Create output file----
   #####Needs to be modified as variables are added. Starting with sst
   #Assuming 100 'samples' are taken each year, from 1980-2100
@@ -26,9 +26,8 @@ SimulateWorld_ROMS_TrophicInteraction_SB <- function(dir){
   colnames(output) <- c("lon","lat","year","pres","suitability","sst", "chla")
   
   #----Load in rasters----
-  files_sst <- list.files(paste0(dir,'/sst_monthly'), full.names = TRUE, pattern=".grd") #should be 1452 files
-  files_chl <- list.files(paste0(dir,'/chl_surface'), full.names = TRUE, pattern=".grd") #should be 1452 files
-  months <- rep(1:12,121) 
+  files_sst <- list.files(paste0(dir,'/sst_monthly'), full.names = TRUE, pattern=".grd") #should be 121 files
+  files_chl <- list.files(paste0(dir,'/chl_surface'), full.names = TRUE, pattern=".grd") #should be 121 files
   years <- seq(1980,2100,1)
   
   #loop through each year
