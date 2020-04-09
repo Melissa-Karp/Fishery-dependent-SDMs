@@ -1,4 +1,4 @@
-#This code uses output from SimulateWorld_ROMS_SB function to build a GAM
+#This code uses output from SimulatedWorld_ROMS_TrophicInteraction_function to build a GAM
 #Species A: distribution and abundance drivn by SST
 ### SAMPLING BIAS###
 #Note only using GFDL for now
@@ -71,7 +71,7 @@ dev_eval=function(model_object){
 }
 
 #Run if lognormal response was simulated
-brt1.a <- gbm.fixed(data=dat_hist[dat_hist$abundance>0,], gbm.x =6 ,gbm.y = 9,family = "gaussian",tree.complexity = 3, learning.rate = 0.01, n.trees=1000, bag.fraction = 0.6)
+brt1.a <- gbm.fixed(data=dat_hist[dat_hist$abundance>0,], gbm.x = 6 ,gbm.y = 8,family = "gaussian",tree.complexity = 3, learning.rate = 0.01, n.trees=1000, bag.fraction = 0.6)
 brt1.p <- gbm.fixed(data=dat_hist, gbm.x = 6,gbm.y = 4,family = "bernoulli",tree.complexity = 3, learning.rate = 0.01, n.trees=1000, bag.fraction = 0.6)
 # saveRDS(brt1.a,paste0(Sim1,'BRT_Sim1_lognorm.rds'))
 # saveRDS(brt1.p,paste0(Sim1,'BRT_Sim1_binom.rds'))
