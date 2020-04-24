@@ -1,11 +1,15 @@
 # Fishery-dependent-SDMs
 Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change
 
+DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
+
 OPERATING MODELS:
 
 SimulatedWorld_ROMS_TrophicInteraction_SamplingBias.R: this function uses temperature and chl-a (from ROMS) to build suitability for two species (predator and its prey), and generate distribution and abundance for one species adding a sampling bias to mimic data collected from a fishery (i.e. fishery-dependent observations) 
 
 SimulatedWorld_ROMS_SamplingBias.R: this function uses temperature (from ROMS) to build suitability for a species and generate distribution and abundance that species adding a sampling bias to mimic data collected from a fishery (i.e. fishery-dependent observations) 
+
+SimulatedWorld_ROMS_Albacore_SamplingBias_RUMs.R: this function uses ROMS data to build suitability for an Albacore-like species and generate distribution and abundance that species adding a sampling bias to mimic data collected from a fishery (i.e. fishery-dependent observations). 
 
 ESTIMATION MODELS:
 
