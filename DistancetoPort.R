@@ -10,7 +10,7 @@ colnames(output) <- c("dp1", "dp2", "dp3", "dp4", "dp5")
 p1<- c(-117.1441, 32.6717)#San Diego bay, CA
 p2<- c(-122.001620, 36.965719)#Santa Cruz, CA
 p3<- c(-123.050618, 38.334302)#Bodega Bay, CA
-p4<- c(-124.292000, 43.383975)#Garibaldi, OR
+p4<- c(-124.292000, 43.383975)#Coos Bay, OR
 p5<- c(-124.114934, 46.911534)#Westport, WA
 
 #read in ROMS sst data and convert to raster layer, and plot Port locations on Map
