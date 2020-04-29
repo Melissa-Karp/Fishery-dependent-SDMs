@@ -8,7 +8,7 @@
 
 dir<-"~/DisMAP project/Location, Location, Location/Location Workshop/ROMS"
 
-SimulateWorld_ROMS_Albacore_SB <- function(dir){
+SimulateWorld_ROMS_PMP_RUM_400 <- function(dir){
   #dir is the local directory that points to where ROMS data is stored 
   
   #required libraries
@@ -122,11 +122,6 @@ SimulateWorld_ROMS_Albacore_SB <- function(dir){
      #5. rescale utility from 0-1, and use this to assign probabilities of being selected; or simply select the N cells with highest utility. Maybe allow same 
       #cell to be sampled multiple times (higher prob of being visisted by multiple fishermen?)
     
-     #6. create a seperate bycatch expectation layer, and take some weighted average of the bycatch and utility layers, and use this instead for step 5.
-    
-     #7. Add in spatial closure by forcing utility in closed cells = 0, so they are not selected. 
-
-   
     ###
     # presence.points <- sampleOccurrences(suitability_PA,n = 400,type = "presence-absence",
     #                                      detection.probability = 1,error.probability=0, plot = FALSE,
