@@ -1,14 +1,16 @@
-#This code is the operating model for a HMS archetype, represented by north pacific albacore tuna
+#This code is the operating model for a HMS archetype representing a Pelagic mobile predator-like species
 #It uses average spring conditions from downscales ROMS projections using Hadley 
 #IMPORTANT: Download average spring ROMS data from here: https://www.dropbox.com/sh/pj1vjz4h1n27hnb/AAD9sySDudMKmq3l4yLPvjQra?dl=0
 
-#We include a trophic interaction between predator (albacore) and prey, but note the estmation model will use chl-a as a proxy for prey information:
+#We include a trophic interaction between predator (PMP) and prey, but note the estmation model will use chl-a as a proxy for prey information:
 #prey: distribution and suitability driven by SST and zooplankton integrated across top 200m
 #predator: distribution and abundance driven by SST, MLD, and Species A
+#Simulates fishery dependent sampling bias where fishing locations (sample locations) is skewed to be more common
+#in areas where fish abundance was high in the year before (y-1 suitability was high)
 
 dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS"
 
-SimulateWorld_ROMS_PMP_PrefSamp_400 <- function(dir){
+SimulateWorld_ROMS_PMP_PrefSamp_100 <- function(dir){
   #dir is the local directory that points to where ROMS data is stored 
   
   #required libraries
@@ -49,6 +51,20 @@ SimulateWorld_ROMS_PMP_PrefSamp_400 <- function(dir){
     # plot(mld, main = 'MLD')
     # plot(zoo, main = 'Zooplankton')
     
+    #Environmental at time t-1 (previous year).
+    #If year 1, then just use at time t.
+    if (y>1){
+      sst_t1 <- raster(files_sst[y-1])
+      mld_t1<-raster(files_mld[y-1])
+      zoo_t1<-raster(files_zoo[y-1])
+      
+    } else {
+      sst_t1 <- sst
+      mld_t1 <- mld
+      zoo_t1 <- zoo
+    }
+    
+    #---- ASSIGN RESPONSE CURVES ---- ####
     
     #----SPECIES A (prey): assign response curves----
     #Species A: likes high zooplankton and medium temps
@@ -72,7 +88,8 @@ SimulateWorld_ROMS_PMP_PrefSamp_400 <- function(dir){
     # spA_suitability$suitab.raster
     # plot(spA_suitability$suitab.raster) #plot habitat suitability
     
-    #----SPECIES B (albacore): assign response curves----
+    
+    #----SPECIES B (Pelagic mobile predator): assign response curves----
     #Species B: likes to eat Species A, and warmer temperatues & shallow MLD
     
     #Stack rasters
@@ -94,30 +111,83 @@ SimulateWorld_ROMS_PMP_PrefSamp_400 <- function(dir){
     ref_max <- ref_max_sst * ref_max_mld * ref_max_spA
     spB_suitability$suitab.raster <- (1/ref_max)*spB_suitability$suitab.raster #JS/BM: rescaling suitability, so the max suitbaility is only when optimum temp is encountered
     # print(spB_suitability$suitab.raster)
-    # plot(spB_suitability$suitab.raster) #plot habitat suitability
+    #plot(spB_suitability$suitab.raster) #plot habitat suitability
     
-    #----Convert suitability to Presence-Absence----
+    #-------Species B: Suitability for PREVIOUS YEAR (y-1)---------#
+    #Sp A suitability y-1
+    
+    #Stack rasters
+    spA_stack_t1 <- stack(sst_t1, zoo_t1)
+    names(spA_stack_t1) <- c('sst_t1', 'zoo_t1')
+    
+    #Assign preferences
+    spA_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=15,sd=5),
+                                         zoo_t1 = c(fun="logisticFun",alpha=-6,beta=50))
+    spA_suitability_t1 <- generateSpFromFun(spA_stack_t1,parameters=spA_parameters_t1, rescale = FALSE,rescale.each.response = FALSE) #Important: make sure rescaling is false. Doesn't work well in the 'for' loop.
+    # plot(spA_suitability_t1$suitab.raster) #plot habitat suitability
+    # virtualspecies::plotResponse(spA_suitability_t1) #plot response curves
+    
+    #manually rescale
+    ref_max_sst_t1 <- dnorm(spA_parameters_t1$sst_t1$args[1], mean=spA_parameters_t1$sst_t1$args[1], sd=spA_parameters_t1$sst_t1$args[2]) #JS/BM: potential maximum suitability based on optimum temperature
+    ref_max_zoo_t1 <- 1 / (1 + exp(((zoo_t1@data@max) - spA_parameters_t1$zoo_t1$args[2])/spA_parameters_t1$zoo_t1$args[1]))
+    ref_max_t1 <- ref_max_sst_t1 * ref_max_zoo_t1 #simple multiplication of layers.
+    spA_suitability_t1$suitab.raster <- (1/ref_max_t1)*spA_suitability_t1$suitab.raster #JS/BM: rescaling suitability, so the max suitbaility is only when optimum is encountered
+    # spA_suitability_t1$suitab.raster
+    #plot(spA_suitability_t1$suitab.raster) #plot habitat suitability
+    
+    #Sp B suitability in year y-1
+    spB_stack_t1 <- stack(sst_t1, mld_t1, spA_suitability_t1$suitab.raster)
+    names(spB_stack_t1) <- c('sst_t1',"mld_t1", "spA_t1")
+    
+    #Assign preferences
+    spB_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=17,sd=5),
+                                         mld_t1 = c(fun="dnorm",mean=50,sd=25),
+                                         spA_t1 = c(fun="logisticFun",alpha=-0.05,beta=0.5))
+    spB_suitability_t1 <- generateSpFromFun(spB_stack_t1,parameters=spB_parameters_t1, rescale = FALSE,rescale.each.response = FALSE)
+    #plot(spB_suitability_t1$suitab.raster) #plot habitat suitability
+    # virtualspecies::plotResponse(spB_suitability) #plot response curves
+    
+    #manually rescale
+    ref_max_sst_t1 <- dnorm(spB_parameters_t1$sst_t1$args[1], mean=spB_parameters_t1$sst_t1$args[1], sd=spB_parameters_t1$sst_t1$args[2]) #JS/BM: potential maximum suitability based on optimum temperature
+    ref_max_mld_t1 <- dnorm(spB_parameters_t1$mld_t1$args[1], mean=spB_parameters_t1$mld_t1$args[1], sd=spB_parameters_t1$mld_t1$args[2])
+    ref_max_spA_t1 <- 1 / (1 + exp(((spA_suitability_t1$suitab.raster@data@max) - spB_parameters_t1$spA_t1$args[2])/spB_parameters_t1$spA_t1$args[1]))
+    ref_max_t1 <- ref_max_sst_t1 * ref_max_mld_t1 * ref_max_spA_t1
+    spB_suitability_t1$suitab.raster <- (1/ref_max_t1)*spB_suitability_t1$suitab.raster #JS/BM: rescaling suitability, so the max suitbaility is only when optimum temp is encountered
+    # print(spB_suitability_t1$suitab.raster)
+    plot(spB_suitability_t1$suitab.raster) #plot habitat suitability
+    
+    #----CONVERT SP B SUITABILITY TO PRESENCE-ABSENCE----####
+    
     #Use a specific function to convert suitability (0-1) to presence or absence (1 or 0)
     
     suitability_PA <- virtualspecies::convertToPA(spB_suitability, PA.method = "probability", beta = 0.5,
                                                   alpha = -0.05, species.prevalence = NULL, plot = FALSE)
     # plotSuitabilityToProba(suitability_PA) #Let's you plot the shape of conversion function
-    # plot(suitability_PA$pa.raster)
+    plot(suitability_PA$pa.raster)
     
-    #-----Sample Presences and Absences-----
+    #y-1 presence absence 
+    suitability_PA_t1 <- virtualspecies::convertToPA(spB_suitability_t1, PA.method = "probability", beta = 0.5,
+                                                     alpha = -0.05, species.prevalence = NULL, plot = FALSE)
+    plot(suitability_PA_t1$pa.raster)
     
-    #Convert Suitability_PA to a polygon of presence area, and bias sampling intensity to polygon of high suitability
-    #also decreased sample size to more accurately mimic the amount of samples/data would get from trawl fishery on West Coast
+    #-----SAMPLE PRESENCES AND ABSENCES-----#####
     
-    pres_poly<- rasterToPolygons(suitability_PA$pa.raster, function(x){x == 1}, dissolve = TRUE) 
-    plot(pres_poly)
+    #Convert Suitability_PA to a polygon of presence area, and bias sampling intensity to polygon of high suitability for Sp B in y-1
+    
+    # pres_poly_t1<- rasterToPolygons(suitability_PA_t1$pa.raster, function(x){x == 1}, dissolve = TRUE) 
+    # plot(pres_poly_t1)
     
     presence.points<-sampleOccurrences(suitability_PA, n=100, type="presence-absence",
-                                       detection.probability = 1, bias = "polygon", bias.strength = 20, bias.area= pres_poly, plot = TRUE)
+                                       detection.probability = 1, bias = "manual", weights = suitability_PA_t1$pa.raster, plot = TRUE)
+    
+    # presence.points<-sampleOccurrences(suitability_PA, n=400, type="presence-absence",
+    #                                   detection.probability = 1, bias = "polygon", bias.strength = 50, bias.area= pres_poly_t1, plot = TRUE)
     df <- cbind(as.data.frame(round(presence.points$sample.points$x,1)),as.data.frame(round(presence.points$sample.points$y,1)))
     colnames(df) <- c("x","y")
     
-    #----Extract data for each year----
+    
+    #----EXTRACT DATA for each year----
+    
     print("Extracting suitability")
     ei <- 100*y #end location in output grid to index to
     se <- ei - 99 #start location in output grid to index to
@@ -139,3 +209,7 @@ SimulateWorld_ROMS_PMP_PrefSamp_400 <- function(dir){
   
   return(output)
 }
+
+#test<-SimulateWorld_ROMS_PMP_PrefSamp_100(dir=dir)
+
+
