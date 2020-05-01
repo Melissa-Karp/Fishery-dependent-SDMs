@@ -4,8 +4,8 @@ library(rgdal)
 setwd("~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/sst_spring_avg")
 
 #create output data frame for all the distance to port data
-output <- as.data.frame(matrix(NA, nrow=33666,ncol=5))
-colnames(output) <- c("dp1", "dp2", "dp3", "dp4", "dp5")
+output <- as.data.frame(matrix(NA, nrow=33666,ncol=7))
+colnames(output) <- c("lat", "lon", "dp1", "dp2", "dp3", "dp4", "dp5")
 
 p1<- c(-117.1441, 32.6717)#San Diego bay, CA
 p2<- c(-122.001620, 36.965719)#Santa Cruz, CA
@@ -30,11 +30,13 @@ dp4<- distanceFromPoints(ROMS, p4)
 dp5<- distanceFromPoints(ROMS, p5)
 
 #Extract distance values for each cell and put in output file
-output$dp1<-raster::extract(dp1, seq(1,dp1@ncols*dp1@nrows, 1))
-output$dp2<-raster::extract(dp2, seq(1,dp2@ncols*dp1@nrows, 1))
-output$dp3<-raster::extract(dp3, seq(1,dp3@ncols*dp1@nrows, 1))
-output$dp4<-raster::extract(dp4, seq(1,dp4@ncols*dp1@nrows, 1))
-output$dp5<-raster::extract(dp5, seq(1,dp5@ncols*dp1@nrows, 1))
+output$lat <- rasterToPoints(dp1)[,2]
+output$lon <- rasterToPoints(dp1)[,1]
+output$dp1 <- rasterToPoints(dp1)[,3]
+output$dp2 <- rasterToPoints(dp2)[,3]
+output$dp3 <- rasterToPoints(dp3)[,3]
+output$dp4 <- rasterToPoints(dp4)[,3]
+output$dp5 <- rasterToPoints (dp5)[,3]
 head(output)
 
 write.csv(output, "~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
