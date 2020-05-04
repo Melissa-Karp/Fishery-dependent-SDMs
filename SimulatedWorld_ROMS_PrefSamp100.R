@@ -159,13 +159,14 @@ SimulateWorld_ROMS_PMP_PrefSamp_100 <- function(dir){
     #----CONVERT SP B SUITABILITY TO PRESENCE-ABSENCE----####
     
     #Use a specific function to convert suitability (0-1) to presence or absence (1 or 0)
-    
+    set.seed(1) #this will insure that the PA raster created for year Y and year Y-1 will be the same as we are using the pa.method = "probability"
     suitability_PA <- virtualspecies::convertToPA(spB_suitability, PA.method = "probability", beta = 0.5,
                                                   alpha = -0.05, species.prevalence = NULL, plot = FALSE)
     # plotSuitabilityToProba(suitability_PA) #Let's you plot the shape of conversion function
     plot(suitability_PA$pa.raster)
     
     #y-1 presence absence 
+    set.seed(1)
     suitability_PA_t1 <- virtualspecies::convertToPA(spB_suitability_t1, PA.method = "probability", beta = 0.5,
                                                      alpha = -0.05, species.prevalence = NULL, plot = FALSE)
     plot(suitability_PA_t1$pa.raster)
