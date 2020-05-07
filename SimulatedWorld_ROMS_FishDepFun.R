@@ -160,6 +160,28 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     # print(spB_suitability_t1$suitab.raster)
     # plot(spB_suitability_t1$suitab.raster) #plot habitat suitability
     
+    #-----Species C: Turtle-like------
+    #Species C: likes high zooplankton and warm temps. 
+    
+    #Stack rasters
+    spC_stack <- stack(sst, zoo)
+    names(spC_stack) <- c('sst', 'zoo')
+    
+    #Assign preferences
+    spC_parameters <- formatFunctions(sst = c(fun="dnorm",mean=25,sd=10),
+                                      zoo = c(fun="logisticFun",alpha=-6,beta=50))
+    spC_suitability <- generateSpFromFun(spC_stack,parameters=spC_parameters, rescale = FALSE,rescale.each.response = FALSE) #Important: make sure rescaling is false. Doesn't work well in the 'for' loop.
+    # plot(spC_suitability$suitab.raster) #plot habitat suitability
+    # virtualspecies::plotResponse(spC_suitability) #plot response curves
+    
+    #manually rescale
+    ref_max_sst <- dnorm(spC_parameters$sst$args[1], mean=spC_parameters$sst$args[1], sd=spC_parameters$sst$args[2]) #JS/BM: potential maximum suitability based on optimum temperature
+    ref_max_zoo <- 1 / (1 + exp(((zoo@data@max) - spC_parameters$zoo$args[2])/spC_parameters$zoo$args[1]))
+    ref_max <- ref_max_sst * ref_max_zoo #simple multiplication of layers.
+    spC_suitability$suitab.raster <- (1/ref_max)*spC_suitability$suitab.raster #JS/BM: rescaling suitability, so the max suitbaility is only when optimum is encountered
+    # spC_suitability$suitab.raster
+    # plot(spC_suitability$suitab.raster) #plot habitat suitability
+    
     #----CONVERT SP B SUITABILITY TO PRESENCE-ABSENCE----####
     
     #Use a specific function to convert suitability (0-1) to presence or absence (1 or 0)
