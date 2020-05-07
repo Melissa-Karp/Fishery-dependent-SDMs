@@ -26,7 +26,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=13)) #21912 non-NA grid cells in ROMS
   colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","random_sampled","pref_sampled","sst","zoo_200","chla_surface", "mld")
   
-  #----Load in rasters----
+  #----Load in rasters and datasets----
   #These are the average spring conditions from the downscaled gfdl earth system model
   files_sst <- list.files(paste0(dir,'/sst_monthly'), full.names = TRUE, pattern=".grd") #should be 1452 files
   files_chl_surface <- list.files(paste0(dir,'/chl_surface'), full.names = TRUE, pattern=".grd") #should be 1452 files
@@ -34,6 +34,9 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   files_zoo <- list.files(paste0(dir,'/zoo_200m'), full.names = TRUE, pattern=".grd")
   years <- seq(1980,2100,1)
   
+  #load distance to ports dataset
+  dist_to_ports<-read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
+
   #----Loop through each year----
   for (y in 1:121){
     print(paste0("Creating environmental simulation for Year ",years[y]))
@@ -173,15 +176,32 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
                                                      alpha = -0.05, species.prevalence = NULL, plot = FALSE)
     # plot(suitability_PA_t1$pa.raster)
     
+   
+     ##-------BUILD RANDOM UTILITY MODEL--------------------######
+  
+    #add presence, suitability, and abundance values from [y-1] to the dist_to_ports dataframe
+    dist_to_ports$pres_t1<-rasterToPoints(suitability_PA_t1$pa.raster)[,3]
+    dist_to_ports$suit_t1<-rasterToPoints(spB_suitability_t1$suitab.raster)[,3]
+    
+    mean_spatial <- round(118000/140, 1) 
+    se_spatial <- round((13000/140) ,2) 
+    dist_to_ports$abund_t1 <- ifelse(dist_to_ports$pres_t1==1,rnorm(nrow(dist_to_ports),mean_spatial, se_spatial)*dist_to_ports$suit_t1,0)
+    
+    #calculate utility
+    price<-10 #just picked a random number for now
+    cost_per_km<-4 #random number for now
+    
+    dist_to_ports$utility_p1<- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp1/1000)*cost_per_km             #cost  
+  
+    df_util<-subset(dist_to_ports, select=-c(3:5))
+    df_util_raster <- rasterFromXYZ(df_util)  #Convert first two columns as lon-lat and third as value                
+    plot(df_util_raster)
+    df_util_raster ## this would then be the raster we would use in the next section to sample presence-absences
+    
+      
     #-----SAMPLE PRESENCES AND ABSENCES-----#####
-    
-
-    
-    #Convert Suitability_PA to a polygon of presence area, and bias sampling intensity to polygon of high suitability for Sp B in y-1
-    
-    # pres_poly_t1<- rasterToPolygons(suitability_PA_t1$pa.raster, function(x){x == 1}, dissolve = TRUE) 
-    # plot(pres_poly_t1)
-    
+        
     #******Random Sampling of nsamples*******
     set.seed(y)
     presence.points.random <- sampleOccurrences(suitability_PA,n = nsamples,type = "presence-absence",
@@ -208,7 +228,9 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     df_full_3 <- left_join(df_full_2, pres_df_pref, by=c('x','y'))
     df_full_3$pref_sampled <- ifelse(is.na(df_full_3$pref_sampled),0,df_full_3$pref_sampled)
     
-
+    #********Sampling of nsamples based on Randum Utility Function*********
+    
+    
     #----EXTRACT DATA for each year----
     
     print("Extracting suitability")
