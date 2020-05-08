@@ -201,26 +201,57 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
    
      ##-------BUILD RANDOM UTILITY MODEL--------------------######
   
-    #add presence, suitability, and abundance values from [y-1] to the dist_to_ports dataframe
-    dist_to_ports$pres_t1<-rasterToPoints(suitability_PA_t1$pa.raster)[,3]
-    dist_to_ports$suit_t1<-rasterToPoints(spB_suitability_t1$suitab.raster)[,3]
+   #add presence, suitability, and abundance values from [y-1] to the dist_to_ports dataframe
+    #dist_to_ports$pres_t1 <- rasterToPoints(suitability_PA_t1$pa.raster)[,3]
+    dist_to_ports$pres_t1 <- extract(suitability_PA_t1$pa.raster, dist_to_ports[,c("lon","lat")])  #*** JS
+    #dist_to_ports$suit_t1 <- rasterToPoints(spB_suitability_t1$suitab.raster)[,3]
+    dist_to_ports$suit_t1 <- extract(suitability_PA_t1$suitab.raster, dist_to_ports[,c("lon","lat")])  #*** JS
     
     mean_spatial <- round(118000/140, 1) 
     se_spatial <- round((13000/140) ,2) 
     dist_to_ports$abund_t1 <- ifelse(dist_to_ports$pres_t1==1,rnorm(nrow(dist_to_ports),mean_spatial, se_spatial)*dist_to_ports$suit_t1,0)
     
-    #calculate utility
+    #plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","abund_t1")]))  #*** JS: plot expected abundance
+    
+    #calculate utility [note: we assume vessels return to port of departure, hence '*2']
     price<-10 #just picked a random number for now
-    cost_per_km<-4 #random number for now
+    cost_per_km<-8 #random number for now  *** JS
+    # port 1
+    dist_to_ports$utility_p1 <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp1/1000)*cost_per_km*2             #cost  
+    #plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p1")]))  #*** JS: plot P1 utility
+    #points(-117.1441, 32.6717, pch=0, cex=2)
+    # port 2
+    dist_to_ports$utility_p2 <- price*dist_to_ports$abund_t1 - #revenue  #*** JS
+      (dist_to_ports$dp2/1000)*cost_per_km*2             #cost  
+    # port 3
+    dist_to_ports$utility_p3 <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp3/1000)*cost_per_km*2             #cost  
+    # port 4
+    dist_to_ports$utility_p4 <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp4/1000)*cost_per_km*2             #cost 
+    # port 5
+    dist_to_ports$utility_p5 <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp5/1000)*cost_per_km*2 
     
-    dist_to_ports$utility_p1<- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp1/1000)*cost_per_km             #cost  
+    dist_to_ports$utility_max <- apply(dist_to_ports[,c("utility_p1", "utility_p2",
+                                                       "utility_p3", "utility_p3",
+                                                       "utility_p5")], 1, FUN=max)
+    # take make of all ports for coast-wide utility
+    df_util_raster <- rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max")])  #*** JS: save coast-wide utility
+    plot(df_util_raster, asp=1, main="Coast-wide Utility")
+    points(-117.1441, 32.6717, pch=0, cex=2)
+    points(-122.001620, 36.965719, pch=0, cex=2)
+    points(-123.050618, 38.334302, pch=0, cex=2)
+    points(-124.292000, 43.383975, pch=0, cex=2)
+    points(-124.114934, 46.911534, pch=0, cex=2)
   
-    df_util<-subset(dist_to_ports, select=-c(3:5))
-    df_util_raster <- rasterFromXYZ(df_util)  #Convert first two columns as lon-lat and third as value                
-    plot(df_util_raster)
-    df_util_raster ## this would then be the raster we would use in the next section to sample presence-absences
-    
+   # *** Rescale utility between 0 and 1
+    df_util_raster2 <- df_util_raster + abs(minValue(df_util_raster))
+    df_util_raster2 <- df_util_raster2/maxValue(df_util_raster2)
+    #plot(df_util_raster2, asp=1, main="Coast-wide Utility")
+
+    ## df_util_raster2 is the raster we use in the next section to sample presence-absences
       
     #-----SAMPLE PRESENCES AND ABSENCES-----#####
         
