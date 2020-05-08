@@ -216,7 +216,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
       (dist_to_ports$dp5/1000)*cost_per_km*2 
     
     dist_to_ports$utility_max <- apply(dist_to_ports[,c("utility_p1", "utility_p2",
-                                                       "utility_p3", "utility_p3",
+                                                       "utility_p3", "utility_p4",
                                                        "utility_p5")], 1, FUN=max)
     # take make of all ports for coast-wide utility
     df_util_raster <- rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max")])  #*** JS: save coast-wide utility
