@@ -199,7 +199,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     cost_per_km<-8 #random number for now  *** JS
     # port 1
     dist_to_ports$utility_p1 <- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp1/1000)*cost_per_km*2             #cost  
+      (dist_to_ports$dp1/1000)*cost_per_km*2        #cost  
     #plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p1")]))  #*** JS: plot P1 utility
     #points(-117.1441, 32.6717, pch=0, cex=2)
     # port 2
