@@ -246,11 +246,12 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     points(-124.292000, 43.383975, pch=0, cex=2)
     points(-124.114934, 46.911534, pch=0, cex=2)
   
-    # df_util<-subset(dist_to_ports, select=-c(3:5))
-    # df_util_raster <- rasterFromXYZ(df_util)  #Convert first two columns as lon-lat and third as value                
-    # plot(df_util_raster)
-    # df_util_raster ## this would then be the raster we would use in the next section to sample presence-absences
-    
+   # *** Rescale utility between 0 and 1
+    df_util_raster2 <- df_util_raster + abs(minValue(df_util_raster))
+    df_util_raster2 <- df_util_raster2/maxValue(df_util_raster2)
+    #plot(df_util_raster2, asp=1, main="Coast-wide Utility")
+
+    ## df_util_raster2 is the raster we use in the next section to sample presence-absences
       
     #-----SAMPLE PRESENCES AND ABSENCES-----#####
         
