@@ -218,7 +218,9 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     dist_to_ports$utility_max <- apply(dist_to_ports[,c("utility_p1", "utility_p2",
                                                        "utility_p3", "utility_p3",
                                                        "utility_p5")], 1, FUN=max)
-    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max")]))  #*** JS: plot coast-wide utility
+    # take make of all ports for coast-wide utility
+    df_util_raster <- rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max")])  #*** JS: save coast-wide utility
+    plot(df_util_raster, asp=1, main="Coast-wide Utility")
     points(-117.1441, 32.6717, pch=0, cex=2)
     points(-122.001620, 36.965719, pch=0, cex=2)
     points(-123.050618, 38.334302, pch=0, cex=2)
