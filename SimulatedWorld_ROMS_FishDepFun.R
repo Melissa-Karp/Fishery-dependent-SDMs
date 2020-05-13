@@ -23,8 +23,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   
   #----Create output file----
   #This will be the information passed to the estimation model
-  output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=13)) #21912 non-NA grid cells in ROMS
-  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","sst","zoo_200","chla_surface", "mld","random_sampled","pref_sampled")
+  output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=14)) #21912 non-NA grid cells in ROMS
+  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","sst","zoo_200","chla_surface", "mld","random_sampled","pref_sampled", "RUM_sampled")
   
   #----Load in rasters and datasets----
   #These are the average spring conditions from the downscaled gfdl earth system model
