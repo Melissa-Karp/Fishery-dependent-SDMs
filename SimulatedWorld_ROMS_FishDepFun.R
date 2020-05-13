@@ -24,7 +24,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   #----Create output file----
   #This will be the information passed to the estimation model
   output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=13)) #21912 non-NA grid cells in ROMS
-  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","random_sampled","pref_sampled","sst","zoo_200","chla_surface", "mld")
+  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","sst","zoo_200","chla_surface", "mld","random_sampled","pref_sampled")
   
   #----Load in rasters and datasets----
   #These are the average spring conditions from the downscaled gfdl earth system model
@@ -347,6 +347,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     df_full <- as.data.frame(rasterToPoints(sst)[,1:2]) #picking an example raster to extract lat and lon from
     df_full_2 <- left_join(df_full, pres_df_random, by=c('x','y'))
     df_full_2$random_sampled <- ifelse(is.na(df_full_2$random_sampled),0,df_full_2$random_sampled)
+    df_full_2$lon <- df_full_2$x
+    df_full_2$lat <- df_full_2$y
     
     #******Preferential Sampling of nsamples - based on Habitat suitability of target species**********
     set.seed(y)
@@ -359,7 +361,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     #add to dataframe
     df_full_3 <- left_join(df_full_2, pres_df_pref, by=c('x','y'))
     df_full_3$pref_sampled <- ifelse(is.na(df_full_3$pref_sampled),0,df_full_3$pref_sampled)
-    
+
     
     #*******Sampling of nsamples based on RUM (expected catch & Distance to Port)********** 
     set.seed(y)
@@ -385,8 +387,7 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
      #add to dataframe
      df_full_5 <- left_join(df_full_4, pres_df_BY, by=c('x','y'))
      df_full_5$BY_sampled <- ifelse(is.na(df_full_5$BY_sampled),0,df_full_5$BY_sampled)
-    
-    
+
     #----EXTRACT DATA for each year----
     
     print("Extracting suitability")
@@ -399,12 +400,17 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     output$pres_t1[se:ei] <- rasterToPoints(suitability_PA_t1$pa.raster)[,3] 
     output$suitability_t[se:ei] <- rasterToPoints(spB_suitability$suitab.raster)[,3]  #extract points from suitability file
     output$suitability_t1[se:ei] <- rasterToPoints(spB_suitability_t1$suitab.raster)[,3] 
-    output$random_sampled <- df_full_4$random_sampled
-    output$pref_sampled <- df_full_4$pref_sampled
-    output$RUM_sampled<-df_full_4$RUM_sampled
     output$sst[se:ei] <-  rasterToPoints(sst)[,3]   #extract points from suitability file
     output$zoo_200[se:ei] <-  rasterToPoints(zoo)[,3] 
     output$mld[se:ei] <-  rasterToPoints(mld)[,3] 
+    #temporary storage: make sure sample coordinates match output coordinates
+    temp_random <-   left_join(output[se:ei,1:11], df_full_4[,c(3,4,5)], by=c('lon','lat'))
+    temp_pref <-   left_join(output[se:ei,1:11], df_full_4[,c(4,5,6)], by=c('lon','lat'))
+    temp_RUM <-   left_join(output[se:ei,1:11], df_full_4[,c(4,5,7)], by=c('lon','lat'))
+    #assign to output
+    output$random_sampled[se:ei] <- temp_random$random_sampled
+    output$pref_sampled[se:ei] <- temp_random$pref_sampled
+    output$RUM_sampled[se:ei]<- temp_random$RUM_sampled
   }
   
   #Average monthly biomass available to CCS is: 1.18x10^5 ± (0.13x10^5 se) mt (from Desiree Tommasi)
