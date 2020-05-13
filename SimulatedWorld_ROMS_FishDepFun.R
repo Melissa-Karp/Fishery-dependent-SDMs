@@ -10,6 +10,7 @@
 
 dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS"
 
+
 SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   #dir is the local directory that points to where ROMS data is stored 
   #nsamples let's you choose the number of samples each year
@@ -23,8 +24,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   
   #----Create output file----
   #This will be the information passed to the estimation model
-  output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=14)) #21912 non-NA grid cells in ROMS
-  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","sst","zoo_200","chla_surface", "mld","random_sampled","pref_sampled", "RUM_sampled")
+  output <- as.data.frame(matrix(NA, nrow=21912*121,ncol=15)) #21912 non-NA grid cells in ROMS
+  colnames(output) <- c("lon","lat","year","pres_t","pres_t1","suitability_t","suitability_t1","sst","zoo_200","chla_surface", "mld","random_sampled","pref_sampled", "RUM_sampled", "BY_sampled")
   
   #----Load in rasters and datasets----
   #These are the average spring conditions from the downscaled gfdl earth system model
@@ -35,8 +36,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   years <- seq(1980,2100,1)
   
   #load distance to ports dataset
-  dist_to_ports<-read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
-
+  # dist_to_ports <- read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
+  
   #----Loop through each year----
   for (y in 1:121){
     print(paste0("Creating environmental simulation for Year ",years[y]))
@@ -78,8 +79,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     names(spA_stack) <- c('sst', 'zoo')
     
     #Assign preferences
-    spA_parameters <- formatFunctions(sst = c(fun="dnorm",mean=15,sd=5),
-                                      zoo = c(fun="logisticFun",alpha=-6,beta=50))
+    spA_parameters <- formatFunctions(sst = c(fun="dnorm",mean=14,sd=4), #SB updated params to latest
+                                      zoo = c(fun="logisticFun",alpha=-10,beta=45))
     spA_suitability <- generateSpFromFun(spA_stack,parameters=spA_parameters, rescale = FALSE,rescale.each.response = FALSE) #Important: make sure rescaling is false. Doesn't work well in the 'for' loop.
     # plot(spA_suitability$suitab.raster) #plot habitat suitability
     # virtualspecies::plotResponse(spA_suitability) #plot response curves
@@ -101,9 +102,9 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     names(spB_stack) <- c('sst',"mld", "spA")
     
     #Assign preferences
-    spB_parameters <- formatFunctions(sst = c(fun="dnorm",mean=17,sd=5),
-                                      mld = c(fun="dnorm",mean=50,sd=25),
-                                      spA = c(fun="logisticFun",alpha=-0.05,beta=0.5))
+    spB_parameters <- formatFunctions(sst = c(fun="dnorm",mean=17,sd=4),
+                                      mld = c(fun="dnorm",mean=50,sd=30),
+                                      spA = c(fun="logisticFun",alpha=-0.15,beta=0.4)) #SB updated params to latest
     spB_suitability <- generateSpFromFun(spB_stack,parameters=spB_parameters, rescale = FALSE,rescale.each.response = FALSE)
     # plot(spB_suitability$suitab.raster) #plot habitat suitability
     # virtualspecies::plotResponse(spB_suitability) #plot response curves
@@ -125,8 +126,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     names(spA_stack_t1) <- c('sst_t1', 'zoo_t1')
     
     #Assign preferences
-    spA_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=15,sd=5),
-                                         zoo_t1 = c(fun="logisticFun",alpha=-6,beta=50))
+    spA_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=14,sd=4),
+                                         zoo_t1 = c(fun="logisticFun",alpha=-10,beta=45))
     spA_suitability_t1 <- generateSpFromFun(spA_stack_t1,parameters=spA_parameters_t1, rescale = FALSE,rescale.each.response = FALSE) #Important: make sure rescaling is false. Doesn't work well in the 'for' loop.
     # plot(spA_suitability_t1$suitab.raster) #plot habitat suitability
     # virtualspecies::plotResponse(spA_suitability_t1) #plot response curves
@@ -144,9 +145,9 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     names(spB_stack_t1) <- c('sst_t1',"mld_t1", "spA_t1")
     
     #Assign preferences
-    spB_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=17,sd=5),
-                                         mld_t1 = c(fun="dnorm",mean=50,sd=25),
-                                         spA_t1 = c(fun="logisticFun",alpha=-0.05,beta=0.5))
+    spB_parameters_t1 <- formatFunctions(sst_t1 = c(fun="dnorm",mean=17,sd=4),
+                                         mld_t1 = c(fun="dnorm",mean=50,sd=30),
+                                         spA_t1 = c(fun="logisticFun",alpha=-0.15,beta=0.4))
     spB_suitability_t1 <- generateSpFromFun(spB_stack_t1,parameters=spB_parameters_t1, rescale = FALSE,rescale.each.response = FALSE)
     #plot(spB_suitability_t1$suitab.raster) #plot habitat suitability
     # virtualspecies::plotResponse(spB_suitability) #plot response curves
@@ -168,8 +169,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     names(spC_stack) <- c('sst', 'zoo')
     
     #Assign preferences
-    spC_parameters <- formatFunctions(sst = c(fun="dnorm",mean=25,sd=10),
-                                      zoo = c(fun="logisticFun",alpha=-6,beta=50))
+    spC_parameters <- formatFunctions(sst = c(fun="dnorm",mean=25,sd=8),
+                                      zoo = c(fun="logisticFun",alpha=-10,beta=50))
     spC_suitability <- generateSpFromFun(spC_stack,parameters=spC_parameters, rescale = FALSE,rescale.each.response = FALSE) #Important: make sure rescaling is false. Doesn't work well in the 'for' loop.
     # plot(spC_suitability$suitab.raster) #plot habitat suitability
     # virtualspecies::plotResponse(spC_suitability) #plot response curves
@@ -187,15 +188,15 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     #Use a specific function to convert suitability (0-1) to presence or absence (1 or 0)
     set.seed(y) #*********set seed to change every year, based on value of y. This will keep within year constant, but allow for noise between years
     #this will insure that the PA raster created for year Y and year Y-1 will be the same as we are using the pa.method = "probability"
-    suitability_PA <- virtualspecies::convertToPA(spB_suitability, PA.method = "probability", beta = 0.5,
-                                                  alpha = -0.05, species.prevalence = NULL, plot = FALSE)
+    suitability_PA <- virtualspecies::convertToPA(spB_suitability, PA.method = "probability", beta = 0.4, #SB updated params to latest OM
+                                                  alpha = -0.07, species.prevalence = NULL, plot = FALSE)
     # plotSuitabilityToProba(suitability_PA) #Let's you plot the shape of conversion function
     # plot(suitability_PA$pa.raster)
     
     #y-1 presence absence 
     set.seed(y)
-    suitability_PA_t1 <- virtualspecies::convertToPA(spB_suitability_t1, PA.method = "probability", beta = 0.5,
-                                                     alpha = -0.05, species.prevalence = NULL, plot = FALSE)
+    suitability_PA_t1 <- virtualspecies::convertToPA(spB_suitability_t1, PA.method = "probability", beta = 0.4, #SB updated params to latest OM
+                                                     alpha = -0.07, species.prevalence = NULL, plot = FALSE)
     # plot(suitability_PA_t1$pa.raster)
     
    
@@ -337,30 +338,21 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
       #******Random Sampling of nsamples*******
     set.seed(y)
     presence.points.random <- sampleOccurrences(suitability_PA,n = nsamples,type = "presence-absence",
-                                                detection.probability = 1,error.probability=0, plot = TRUE,
-                                                sample.prevalence = 0.5)  
+                                                detection.probability = 1,error.probability=0, plot = TRUE) #SB removed fixed prevalence 
+
     #convert to dataframe
     pres_df_random <- cbind(as.data.frame(presence.points.random$sample.points$x),as.data.frame(presence.points.random$sample.points$y))
-    colnames(pres_df_random) <- c("x","y")
+    colnames(pres_df_random) <- c("lon","lat")
     pres_df_random$random_sampled <- 1
-    #expand dataframe to include all possible locations
-    df_full <- as.data.frame(rasterToPoints(sst)[,1:2]) #picking an example raster to extract lat and lon from
-    df_full_2 <- left_join(df_full, pres_df_random, by=c('x','y'))
-    df_full_2$random_sampled <- ifelse(is.na(df_full_2$random_sampled),0,df_full_2$random_sampled)
-    df_full_2$lon <- df_full_2$x
-    df_full_2$lat <- df_full_2$y
-    
+  
     #******Preferential Sampling of nsamples - based on Habitat suitability of target species**********
     set.seed(y)
     presence.points.preferential <-sampleOccurrences(suitability_PA, n=nsamples, type="presence-absence",
                                                      detection.probability = 1, bias = "manual", weights = spB_suitability_t1$suitab.raster, plot = TRUE)
     #convert to dataframe
     pres_df_pref <- cbind(as.data.frame(presence.points.preferential$sample.points$x),as.data.frame(presence.points.preferential$sample.points$y))
-    colnames(pres_df_pref) <- c("x","y")
+    colnames(pres_df_pref) <- c("lon","lat")
     pres_df_pref$pref_sampled <- 1
-    #add to dataframe
-    df_full_3 <- left_join(df_full_2, pres_df_pref, by=c('x','y'))
-    df_full_3$pref_sampled <- ifelse(is.na(df_full_3$pref_sampled),0,df_full_3$pref_sampled)
 
     
     #*******Sampling of nsamples based on RUM (expected catch & Distance to Port)********** 
@@ -369,11 +361,8 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
                                                     detection.probability = 1, bias = "manual", weights= df_sum_raster2, plot=TRUE)
     #convert to dataframe
     pres_df_RUM <- cbind(as.data.frame(presence.points.RUM$sample.points$x),as.data.frame(presence.points.RUM$sample.points$y))
-    colnames(pres_df_RUM) <- c("x","y")
+    colnames(pres_df_RUM) <- c("lon","lat")
     pres_df_RUM$RUM_sampled <- 1
-    #add to dataframe
-    df_full_4 <- left_join(df_full_3, pres_df_RUM, by=c('x','y'))
-    df_full_4$RUM_sampled <- ifelse(is.na(df_full_4$RUM_sampled),0,df_full_4$RUM_sampled)
 
    
      #*******Sampling of nsamples based on Habitat Suitability & Distance to Port & Bycatch********** 
@@ -382,19 +371,16 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
                                             detection.probability = 1, bias = "manual", weights= df_sum_raster2_BY , plot=TRUE)
      #convert to dataframe
      pres_df_BY <- cbind(as.data.frame(presence.points.BY$sample.points$x),as.data.frame(presence.points.BY$sample.points$y))
-     colnames(pres_df_BY) <- c("x","y")
+     colnames(pres_df_BY) <- c("lon","lat")
      pres_df_BY$BY_sampled <- 1
-     #add to dataframe
-     df_full_5 <- left_join(df_full_4, pres_df_BY, by=c('x','y'))
-     df_full_5$BY_sampled <- ifelse(is.na(df_full_5$BY_sampled),0,df_full_5$BY_sampled)
 
     #----EXTRACT DATA for each year----
     
     print("Extracting suitability")
     ei <- 21912*y #end location in output grid to index to
     se <- ei - (21912-1) #start location in output grid to index to
-    output$lat[se:ei] <- df_full_4$y
-    output$lon[se:ei] <- df_full_4$x
+    output$lat[se:ei] <- rasterToPoints(sst)[,2] 
+    output$lon[se:ei] <- rasterToPoints(sst)[,1] 
     output$year[se:ei] <- rep(years[y],21912)
     output$pres_t[se:ei] <- rasterToPoints(suitability_PA$pa.raster)[,3] 
     output$pres_t1[se:ei] <- rasterToPoints(suitability_PA_t1$pa.raster)[,3] 
@@ -403,14 +389,19 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     output$sst[se:ei] <-  rasterToPoints(sst)[,3]   #extract points from suitability file
     output$zoo_200[se:ei] <-  rasterToPoints(zoo)[,3] 
     output$mld[se:ei] <-  rasterToPoints(mld)[,3] 
-    #temporary storage: make sure sample coordinates match output coordinates
-    temp_random <-   left_join(output[se:ei,1:11], df_full_4[,c(3,4,5)], by=c('lon','lat'))
-    temp_pref <-   left_join(output[se:ei,1:11], df_full_4[,c(4,5,6)], by=c('lon','lat'))
-    temp_RUM <-   left_join(output[se:ei,1:11], df_full_4[,c(4,5,7)], by=c('lon','lat'))
+    output$chla_surface[se:ei] <- rasterToPoints(chla_surface)[,3]
+    
+    #temporary storage:matching sample coordinates to output coordinates
+    temp_random <-   left_join(output[se:ei,1:11], pres_df_random, by=c('lon','lat'))
+    temp_pref <-   left_join(output[se:ei,1:11], pres_df_pref, by=c('lon','lat'))
+    temp_RUM <-   left_join(output[se:ei,1:11], pres_df_RUM, by=c('lon','lat'))
+    temp_BY <-   left_join(output[se:ei,1:11], pres_df_BY, by=c('lon','lat'))
+    
     #assign to output
     output$random_sampled[se:ei] <- temp_random$random_sampled
-    output$pref_sampled[se:ei] <- temp_random$pref_sampled
-    output$RUM_sampled[se:ei]<- temp_random$RUM_sampled
+    output$pref_sampled[se:ei] <- temp_pref$pref_sampled
+    output$RUM_sampled[se:ei] <- temp_RUM$RUM_sampled
+    output$BY_sampled[se:ei] <-  temp_BY$BY_sampled
   }
   
   #Average monthly biomass available to CCS is: 1.18x10^5 ± (0.13x10^5 se) mt (from Desiree Tommasi)
@@ -418,6 +409,12 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
   se_spatial <- round((13000/140) ,2) 
   output$abundance_t <- ifelse(output$pres_t==1,rnorm(nrow(output),mean_spatial, se_spatial)*output$suitability_t,0)
   
+  #Convert NAs in 'sampled' columns to zeros
+  output$random_sampled <- ifelse(is.na(output$random_sampled),0, output$random_sampled)
+  output$pref_sampled <- ifelse(is.na(output$pref_sampled),0, output$pref_sampled)
+  output$RUM_sampled <- ifelse(is.na(output$RUM_sampled),0, output$RUM_sampled)
+  output$BY_sampled <- ifelse(is.na(output$BY_sampled),0, output$BY_sampled)
+
   print('Saving csv to working directory')
   write.csv(output, 'FisheryDependent_OM_Simulation.csv',row.names = FALSE)
   return(output)
