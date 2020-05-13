@@ -199,67 +199,146 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     # plot(suitability_PA_t1$pa.raster)
     
    
-     ##-------BUILD RANDOM UTILITY MODEL--------------------######
-  
+       ##-------BUILD Random Utility Function--------------------######
+ 
    #add presence, suitability, and abundance values from [y-1] to the dist_to_ports dataframe
-    #dist_to_ports$pres_t1 <- rasterToPoints(suitability_PA_t1$pa.raster)[,3]
     dist_to_ports$pres_t1 <- extract(suitability_PA_t1$pa.raster, dist_to_ports[,c("lon","lat")])  #*** JS
-    #dist_to_ports$suit_t1 <- rasterToPoints(spB_suitability_t1$suitab.raster)[,3]
-    dist_to_ports$suit_t1 <- extract(suitability_PA_t1$suitab.raster, dist_to_ports[,c("lon","lat")])  #*** JS
-    
-    mean_spatial <- round(118000/140, 1) 
-    se_spatial <- round((13000/140) ,2) 
-    dist_to_ports$abund_t1 <- ifelse(dist_to_ports$pres_t1==1,rnorm(nrow(dist_to_ports),mean_spatial, se_spatial)*dist_to_ports$suit_t1,0)
-    
-    #plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","abund_t1")]))  #*** JS: plot expected abundance
-    
+    dist_to_ports$suit_t1 <- extract(spB_suitability_t1$suitab.raster, dist_to_ports[,c("lon","lat")])  #*** JS
+
+    mean_spatial <- round(118000/140, 1)
+    se_spatial <- round((13000/140) ,2)
+    dist_to_ports$abund_t1 <- ifelse(dist_to_ports$pres_t1==1, rnorm(nrow(dist_to_ports), mean_spatial, se_spatial)*dist_to_ports$suit_t1, 0)
+
     #calculate utility [note: we assume vessels return to port of departure, hence '*2']
-    price<-10 #just picked a random number for now
-    cost_per_km<-8 #random number for now  *** JS
+    price<-4000 #just picked a random number for now
+    cost_per_km<-1500 #random number for now  *** JS
     # port 1
     dist_to_ports$utility_p1 <- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp1/1000)*cost_per_km*2             #cost  
-    #plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p1")]))  #*** JS: plot P1 utility
+      dist_to_ports$dp1/1000*cost_per_km*2             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p1")]))  #*** JS: plot P1 utility
     #points(-117.1441, 32.6717, pch=0, cex=2)
     # port 2
     dist_to_ports$utility_p2 <- price*dist_to_ports$abund_t1 - #revenue  #*** JS
-      (dist_to_ports$dp2/1000)*cost_per_km*2             #cost  
+      (dist_to_ports$dp2/1000)*cost_per_km*2             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p2")]))
     # port 3
     dist_to_ports$utility_p3 <- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp3/1000)*cost_per_km*2             #cost  
+      (dist_to_ports$dp3/1000)*cost_per_km*2             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p3")]))  #*** JS: plot P1 utility
     # port 4
     dist_to_ports$utility_p4 <- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp4/1000)*cost_per_km*2             #cost 
+      (dist_to_ports$dp4/1000)*cost_per_km*2             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p4")]))  #*** JS: plot P1 utility
     # port 5
     dist_to_ports$utility_p5 <- price*dist_to_ports$abund_t1 - #revenue
-      (dist_to_ports$dp5/1000)*cost_per_km*2 
-    
+      (dist_to_ports$dp5/1000)*cost_per_km*2
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p5")]))  #*** JS: plot P1 utility
+
     dist_to_ports$utility_max <- apply(dist_to_ports[,c("utility_p1", "utility_p2",
-                                                       "utility_p3", "utility_p3",
-                                                       "utility_p5")], 1, FUN=max)
-    # take make of all ports for coast-wide utility
+                                                         "utility_p3", "utility_p3",
+                                                         "utility_p5")], 1, FUN=max)
+
+    dist_to_ports$utility_SUM <- apply(dist_to_ports[,c("utility_p1", "utility_p2",
+                                                        "utility_p3", "utility_p3",
+                                                         "utility_p5")], 1, FUN=sum)
+
+    # head(dist_to_ports)
+    # # take make of all ports for coast-wide utility
     df_util_raster <- rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max")])  #*** JS: save coast-wide utility
     plot(df_util_raster, asp=1, main="Coast-wide Utility")
+
+    df_sum_raster<-rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_SUM")])  #*** JS: save coast-wide utility
+    plot(df_sum_raster, asp=1, main="Coast-wide Utility")
+
+    # # *** Rescale utility_max between 0 and 1
+    df_util_raster2 <- df_util_raster + abs(minValue(df_util_raster))
+    df_util_raster2 <- df_util_raster2/maxValue(df_util_raster2)  ## df_util_raster2 is the raster we use in the next section to sample presence-absences
+    plot(df_util_raster2, asp=1, main="Coast-wide Utility")
     points(-117.1441, 32.6717, pch=0, cex=2)
     points(-122.001620, 36.965719, pch=0, cex=2)
     points(-123.050618, 38.334302, pch=0, cex=2)
     points(-124.292000, 43.383975, pch=0, cex=2)
     points(-124.114934, 46.911534, pch=0, cex=2)
-  
-   # *** Rescale utility between 0 and 1
-    df_util_raster2 <- df_util_raster + abs(minValue(df_util_raster))
-    df_util_raster2 <- df_util_raster2/maxValue(df_util_raster2)
-    #plot(df_util_raster2, asp=1, main="Coast-wide Utility")
 
-    ## df_util_raster2 is the raster we use in the next section to sample presence-absences
-      
-    #-----SAMPLE PRESENCES AND ABSENCES-----#####
-        
-    #******Random Sampling of nsamples*******
+    # # *** Rescale utility_SUM between 0 and 1
+    df_sum_raster2 <- df_sum_raster + abs(minValue(df_sum_raster))
+    df_sum_raster2 <- df_sum_raster2/maxValue(df_sum_raster2)  ## df_util_raster2 is the raster we use in the next section to sample presence-absences
+    plot(df_sum_raster2, asp=1, main="Coast-wide Utility")
+    points(-117.1441, 32.6717, pch=0, cex=2)
+    points(-122.001620, 36.965719, pch=0, cex=2)
+    points(-123.050618, 38.334302, pch=0, cex=2)
+    points(-124.292000, 43.383975, pch=0, cex=2)
+    points(-124.114934, 46.911534, pch=0, cex=2)
+
+   ## Add cost of catching BYCATCH species into RUM **********
+    dist_to_ports$suitSpC <- extract(spC_suitability$suitab.raster, dist_to_ports[,c("lon","lat")])  #*** JS
+    bycost=1000
+    # port 1
+    dist_to_ports$utility_p1_BY <- price*dist_to_ports$abund_t1 - #revenue
+      dist_to_ports$dp1/1000*cost_per_km*2 + dist_to_ports$suitSpC*bycost           #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p1_BY")]))  #*** JS: plot P1 utility
+    #points(-117.1441, 32.6717, pch=0, cex=2)
+    # port 2
+    dist_to_ports$utility_p2_BY <- price*dist_to_ports$abund_t1 - #revenue  #*** JS
+      (dist_to_ports$dp2/1000)*cost_per_km*2 + dist_to_ports$suitSpC*bycost        #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p2_BY")]))
+    # port 3
+    dist_to_ports$utility_p3_BY <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp3/1000)*cost_per_km*2 + dist_to_ports$suitSpC*bycost             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p3_BY")]))  #*** JS: plot P1 utility
+    # port 4
+    dist_to_ports$utility_p4_BY <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp4/1000)*cost_per_km*2 + dist_to_ports$suitSpC*bycost             #cost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p4_BY")]))  #*** JS: plot P1 utility
+    # port 5
+    dist_to_ports$utility_p5_BY <- price*dist_to_ports$abund_t1 - #revenue
+      (dist_to_ports$dp5/1000)*cost_per_km*2 + dist_to_ports$suitSpC*bycost
+    plot(rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_p5_BY")]))  #*** JS: plot P1 utility
+
+    dist_to_ports$utility_max_BY <- apply(dist_to_ports[,c("utility_p1_BY", "utility_p2_BY",
+                                                         "utility_p3_BY", "utility_p3_BY",
+                                                         "utility_p5_BY")], 1, FUN=max)
+
+    dist_to_ports$utility_SUM_BY <- apply(dist_to_ports[,c("utility_p1_BY", "utility_p2_BY",
+                                                         "utility_p3_BY", "utility_p3_BY",
+                                                         "utility_p5_BY")], 1, FUN=sum)
+
+    # head(dist_to_ports)
+    # # take make of all ports for coast-wide utility
+    df_util_raster_BY <- rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_max_BY")])  #*** JS: save coast-wide utility
+    plot(df_util_raster_BY, asp=1, main="Coast-wide Utility")
+
+    df_sum_raster_BY<-rasterFromXYZ(dist_to_ports[,c("lon","lat","utility_SUM_BY")])  #*** JS: save coast-wide utility
+    plot(df_sum_raster_BY, asp=1, main="Coast-wide Utility")
+
+    # # *** Rescale utility_max between 0 and 1
+    df_util_raster2_BY <- df_util_raster_BY + abs(minValue(df_util_raster_BY))
+    df_util_raster2_BY <- df_util_raster2_BY/maxValue(df_util_raster2_BY)  ## df_util_raster2 is the raster we use in the next section to sample presence-absences
+    plot(df_util_raster2_BY, asp=1, main="Coast-wide Utility")
+    points(-117.1441, 32.6717, pch=0, cex=2)
+    points(-122.001620, 36.965719, pch=0, cex=2)
+    points(-123.050618, 38.334302, pch=0, cex=2)
+    points(-124.292000, 43.383975, pch=0, cex=2)
+    points(-124.114934, 46.911534, pch=0, cex=2)
+
+    # # *** Rescale utility_SUM between 0 and 1
+    df_sum_raster2_BY <- df_sum_raster_BY + abs(minValue(df_sum_raster_BY))
+    df_sum_raster2_BY <- df_sum_raster2_BY/maxValue(df_sum_raster2_BY)  ## df_util_raster2_BY is the raster we use in the next section to sample presence-absences
+    plot(df_sum_raster2_BY, asp=1, main="Coast-wide Utility")
+    points(-117.1441, 32.6717, pch=0, cex=2)
+    points(-122.001620, 36.965719, pch=0, cex=2)
+    points(-123.050618, 38.334302, pch=0, cex=2)
+    points(-124.292000, 43.383975, pch=0, cex=2)
+    points(-124.114934, 46.911534, pch=0, cex=2)
+
+
+   #-----SAMPLE PRESENCES AND ABSENCES-----#####
+    
+      #******Random Sampling of nsamples*******
     set.seed(y)
     presence.points.random <- sampleOccurrences(suitability_PA,n = nsamples,type = "presence-absence",
-                                         detection.probability = 1,error.probability=0, plot = FALSE,
-                                         sample.prevalence = 0.5)  
+                                                detection.probability = 1,error.probability=0, plot = TRUE,
+                                                sample.prevalence = 0.5)  
     #convert to dataframe
     pres_df_random <- cbind(as.data.frame(presence.points.random$sample.points$x),as.data.frame(presence.points.random$sample.points$y))
     colnames(pres_df_random) <- c("x","y")
@@ -269,10 +348,10 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     df_full_2 <- left_join(df_full, pres_df_random, by=c('x','y'))
     df_full_2$random_sampled <- ifelse(is.na(df_full_2$random_sampled),0,df_full_2$random_sampled)
     
-    #******Preferential Sampling of nsamples**********
+    #******Preferential Sampling of nsamples - based on Habitat suitability of target species**********
     set.seed(y)
     presence.points.preferential <-sampleOccurrences(suitability_PA, n=nsamples, type="presence-absence",
-                                       detection.probability = 1, bias = "manual", weights = suitability_PA_t1$pa.raster, plot = FALSE)
+                                                     detection.probability = 1, bias = "manual", weights = spB_suitability_t1$suitab.raster, plot = TRUE)
     #convert to dataframe
     pres_df_pref <- cbind(as.data.frame(presence.points.preferential$sample.points$x),as.data.frame(presence.points.preferential$sample.points$y))
     colnames(pres_df_pref) <- c("x","y")
@@ -281,7 +360,31 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     df_full_3 <- left_join(df_full_2, pres_df_pref, by=c('x','y'))
     df_full_3$pref_sampled <- ifelse(is.na(df_full_3$pref_sampled),0,df_full_3$pref_sampled)
     
-    #********Sampling of nsamples based on Randum Utility Function*********
+    
+    #*******Sampling of nsamples based on RUM (expected catch & Distance to Port)********** 
+    set.seed(y)
+    presence.points.RUM<-sampleOccurrences(suitability_PA, n=nsamples, type="presence-absence",
+                                                    detection.probability = 1, bias = "manual", weights= df_sum_raster2, plot=TRUE)
+    #convert to dataframe
+    pres_df_RUM <- cbind(as.data.frame(presence.points.RUM$sample.points$x),as.data.frame(presence.points.RUM$sample.points$y))
+    colnames(pres_df_RUM) <- c("x","y")
+    pres_df_RUM$RUM_sampled <- 1
+    #add to dataframe
+    df_full_4 <- left_join(df_full_3, pres_df_RUM, by=c('x','y'))
+    df_full_4$RUM_sampled <- ifelse(is.na(df_full_4$RUM_sampled),0,df_full_4$RUM_sampled)
+
+   
+     #*******Sampling of nsamples based on Habitat Suitability & Distance to Port & Bycatch********** 
+     set.seed(y)
+     presence.points.BY<-sampleOccurrences(suitability_PA, n=nsamples, type="presence-absence",
+                                            detection.probability = 1, bias = "manual", weights= df_sum_raster2_BY , plot=TRUE)
+     #convert to dataframe
+     pres_df_BY <- cbind(as.data.frame(presence.points.BY$sample.points$x),as.data.frame(presence.points.BY$sample.points$y))
+     colnames(pres_df_BY) <- c("x","y")
+     pres_df_BY$BY_sampled <- 1
+     #add to dataframe
+     df_full_5 <- left_join(df_full_4, pres_df_BY, by=c('x','y'))
+     df_full_5$BY_sampled <- ifelse(is.na(df_full_5$BY_sampled),0,df_full_5$BY_sampled)
     
     
     #----EXTRACT DATA for each year----
@@ -289,18 +392,18 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     print("Extracting suitability")
     ei <- 21912*y #end location in output grid to index to
     se <- ei - (21912-1) #start location in output grid to index to
-    output$lat[se:ei] <- df_full_3$y
-    output$lon[se:ei] <- df_full_3$x
+    output$lat[se:ei] <- df_full_4$y
+    output$lon[se:ei] <- df_full_4$x
     output$year[se:ei] <- rep(years[y],21912)
     output$pres_t[se:ei] <- rasterToPoints(suitability_PA$pa.raster)[,3] 
     output$pres_t1[se:ei] <- rasterToPoints(suitability_PA_t1$pa.raster)[,3] 
     output$suitability_t[se:ei] <- rasterToPoints(spB_suitability$suitab.raster)[,3]  #extract points from suitability file
     output$suitability_t1[se:ei] <- rasterToPoints(spB_suitability_t1$suitab.raster)[,3] 
-    output$random_sampled <- df_full_3$random_sampled
-    output$pref_sampled <- df_full_3$pref_sampled
+    output$random_sampled <- df_full_4$random_sampled
+    output$pref_sampled <- df_full_4$pref_sampled
+    output$RUM_sampled<-df_full_4$RUM_sampled
     output$sst[se:ei] <-  rasterToPoints(sst)[,3]   #extract points from suitability file
     output$zoo_200[se:ei] <-  rasterToPoints(zoo)[,3] 
-    output$chla_surface[se:ei] <-  rasterToPoints(chla_surface)[,3] 
     output$mld[se:ei] <-  rasterToPoints(mld)[,3] 
   }
   
