@@ -314,8 +314,6 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     
     
     #----EXTRACT DATA for each year----
-    
-    print("Extracting suitability")
     ei <- 21912*y #end location in output grid to index to
     se <- ei - (21912-1) #start location in output grid to index to
     output$lat[se:ei] <- df_full_4$y
@@ -325,16 +323,24 @@ SimulateWorld_ROMS_PMP <- function(dir, nsamples){
     output$pres_t1[se:ei] <- rasterToPoints(suitability_PA_t1$pa.raster)[,3] 
     output$suitability_t[se:ei] <- rasterToPoints(spB_suitability$suitab.raster)[,3]  #extract points from suitability file
     output$suitability_t1[se:ei] <- rasterToPoints(spB_suitability_t1$suitab.raster)[,3] 
-    output$random_sampled <- df_full_6$random_sampled
-    output$pref_sampled <- df_full_6$pref_sampled
-    output$Dist_sampled<-df_full_6$Dist_sampled
-    output$BY_sampled<-df_full_6$BY_sampled
-    output$ByDist_sampled<-df_full_6$ByDist_sampled
     output$sst[se:ei] <-  rasterToPoints(sst)[,3]   #extract points from suitability file
     output$zoo_200[se:ei] <-  rasterToPoints(zoo)[,3] 
     output$mld[se:ei] <-  rasterToPoints(mld)[,3] 
+    #temporary storage: make sure sample coordinates match output coordinates
+    temp_random <-   left_join(output[se:ei,1:11], df_full_6[,c(3,4,5)], by=c('lon','lat'))
+    temp_pref <-   left_join(output[se:ei,1:11], df_full_6[,c(4,5,6)], by=c('lon','lat'))
+    temp_Dist <-   left_join(output[se:ei,1:11], df_full_6[,c(4,5,7)], by=c('lon','lat'))
+    temp_BY <- left_join(output[se:ei,1:11], df_full_6[,c(4,5,8)], by=c('lon', 'lat'))
+    temp_ByDist<-left_join(output[se:ei,1:11], df_full_6[,c(4,5,9)], by=c('lon', 'lat'))
+    #assign to output
+    output$random_sampled[se:ei] <- temp_random$random_sampled
+    output$pref_sampled[se:ei] <- temp_random$pref_sampled
+    output$Dist_sampled[se:ei]<- temp_random$Dist_sampled
+    output$BY_sampled[se:ei]<- temp_random$BY_sampled
+    output$ByDist_sampled[se:ei]<- temp_random$ByDist_sampled
+
   }
-  
+    
   #Average monthly biomass available to CCS is: 1.18x10^5 ± (0.13x10^5 se) mt (from Desiree Tommasi)
   mean_spatial <- round(118000/140, 1) 
   se_spatial <- round((13000/140) ,2) 
