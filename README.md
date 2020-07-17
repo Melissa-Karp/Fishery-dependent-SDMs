@@ -7,6 +7,10 @@ OPERATING MODELS:
 
 For all operating models we are simulating a "Pelagic mobile predator" like species. For all operating models the caluclation of the species suitability functions are the same and are a function of mean spring SST, mld, and a prey species (Sp A), whose suitability is a function of zooplankton and SST. 
 
+SimulatedWorld_ROMS_FishDep_DetProbCorrected.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 but corrected to be a function of habitat suitability. That is to say that is the species is present at a location the chances of it being detected (or caught be fishermen) is dep on the habitat suitability at that location. Higher habitat suit means greater abundance and therefore higher chances of species being caught. 
+
+SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. 
+
 SimulatedWorld_ROMS_SB_FunctionFishingSuit.R: This function builds a Fishing Suitability Raster layer, by treating "Fishing" as a predator species whose 'suitable' sites/habitat is a function of (1)suitability of habitat for its prey (i.e. target species, spB), (2) Distance to port - proxy for cost, and (3) low probability of encountering bycatch species (so likes areas of low suitability for spC). This function builds 4 different Fish suitability layers - (i). Just based on habitat suit of Sp B, (ii) based on habitat suit of sp B and distance to port, (iii) hab suit sp B and low bycatch risk, and (iii) hab suit spB, distance to port, and bycatch risk. 
 
 SimulatedWorld_ROMS_FishDepFun.R: Simulates the 5 functions below all in one function by allowing user to indicate sample size using nsamples = x. This function simulates fishing biases by building a Random Utility function. 
