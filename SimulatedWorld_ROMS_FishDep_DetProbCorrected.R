@@ -51,6 +51,7 @@ SimulateWorld_ROMS_FishDepFun_DetProbCorrection <- function(dir, nsamples){
     mld <- raster(files_mld[y])
     zoo <- raster(files_zoo[y])
     chl_surface<-raster(files_chl_surface[y])
+    chla_surface <- log(chla_surface)
     
     #Optional: plot environmental layers
     # par(mfrow=c(1,4))
