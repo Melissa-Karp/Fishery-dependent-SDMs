@@ -1,7 +1,6 @@
 # Fishery-dependent-SDMs
 Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change
 
-DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
 USE THESE FILES: 
 1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
 
