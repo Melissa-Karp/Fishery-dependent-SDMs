@@ -2,14 +2,23 @@
 Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change
 
 DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
+USE THESE FILES: 
+1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
+
+2. Operating Model
+SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected.
+
+3. Estimation Model
+ModelComparison_FishSuitability_Updated_8_4_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. 
+
+
+OLD CODE: 
 
 OPERATING MODELS:
 
 For all operating models we are simulating a "Pelagic mobile predator" like species. For all operating models the caluclation of the species suitability functions are the same and are a function of mean spring SST, mld, and a prey species (Sp A), whose suitability is a function of zooplankton and SST. 
 
 SimulatedWorld_ROMS_FishDep_DetProbCorrected.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 but corrected to be a function of habitat suitability. That is to say that is the species is present at a location the chances of it being detected (or caught be fishermen) is dep on the habitat suitability at that location. Higher habitat suit means greater abundance and therefore higher chances of species being caught. 
-
-SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. 
 
 SimulatedWorld_ROMS_SB_FunctionFishingSuit.R: This function builds a Fishing Suitability Raster layer, by treating "Fishing" as a predator species whose 'suitable' sites/habitat is a function of (1)suitability of habitat for its prey (i.e. target species, spB), (2) Distance to port - proxy for cost, and (3) low probability of encountering bycatch species (so likes areas of low suitability for spC). This function builds 4 different Fish suitability layers - (i). Just based on habitat suit of Sp B, (ii) based on habitat suit of sp B and distance to port, (iii) hab suit sp B and low bycatch risk, and (iii) hab suit spB, distance to port, and bycatch risk. 
 
