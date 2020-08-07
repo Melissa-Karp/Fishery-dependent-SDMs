@@ -15,7 +15,7 @@
 
 dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley"
 
-#*******************Closed Area Simulation********************#
+#*******************Closed Area Simulation********************# ## Courtesy of Owen!!! :) ###
 # Closed area designation can be a set of coordinates (a vector as c(xmin,xmax,ymin,ymax) in lat/lon), or a simple features (sf) polygon object
 # The function takes the given area and converts to a raster on the same grid as the grid used for the species simulation
 # The resulting raster is made up of zeroes (closed area) and ones, such that it could be multiplied by a habitat suitability or
