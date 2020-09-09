@@ -74,7 +74,7 @@ SimulateWorld_ROMS_FishDepFun_NODetProb <- function(dir, nsamples){
   years <- seq(1980,2100,1)
   
   #---Load in Distance to port file -----
-  dist_to_ports<-read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
+  dist_to_ports<-read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv") ## this file is created using the distance to ports code
   
   #----Loop through each year----
   for (y in 1:121){
@@ -234,7 +234,7 @@ SimulateWorld_ROMS_FishDepFun_NODetProb <- function(dir, nsamples){
     
     #get "minimum distance from a port" for each cell
     dist_to_ports$dist_min <- apply(dist_to_ports[,c("dp1", "dp2",
-                                                     "dp3", "dp3",
+                                                     "dp3", "dp4",
                                                      "dp5")], 1, FUN=min)
     dist_min_raster<- rasterFromXYZ(dist_to_ports[,c("lon","lat","dist_min")])
     dist_min_km<-dist_min_raster/1000
