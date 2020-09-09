@@ -4,10 +4,10 @@ Code for project looking at impact of using fishery-dependent data in SDM and fo
 USE THESE FILES: 
 1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
 
-2. Operating Model
+2. Operating Model:
 SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected.
 
-3. Estimation Model
+3. Estimation Model:
 ModelComparison_FishSuitability_Updated_8_4_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. 
 
 
