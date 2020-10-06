@@ -1,9 +1,7 @@
 #This code is the operating model for a HMS archetype representing a Pelagic mobile predator-like species
 #It uses average spring conditions from downscales ROMS projections using Hadley 
 #IMPORTANT: Download average spring ROMS data from here: https://www.dropbox.com/sh/pj1vjz4h1n27hnb/AAD9sySDudMKmq3l4yLPvjQra?dl=0
-## THIS CODE INCORPORATES A SAMPLING BIAS REPRESENTING UNEQUAL OBSERVER COVERAGE OR LOG BOOK REPORTING 
-  # BETWEEN AREAS WHERE SPECIES IS DISTRIBUTED (e.g. only 30% sampled sites reported in WA and OR, vs 100% in CA)
-
+## 
 #We include a trophic interaction between predator (PMP) and prey, but note the estmation model will use chl-a as a proxy for prey information:
 #prey: distribution and suitability driven by SST and zooplankton integrated across top 200m
 #predator: distribution and abundance driven by SST, MLD, and Species A
