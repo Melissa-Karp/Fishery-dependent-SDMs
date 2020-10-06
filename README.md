@@ -8,7 +8,7 @@ USE THESE FILES:
 SimulatedWorld_ROMS_FishDep_UnequalCoverage.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. This updated OM increases the strength of the fishermen preference for high suitable habitat for target species, by including a new bias siutaiton called opt_sampled. This also changes to only using dp4 and dp5 (ports in WA and OR) for the distance bias situation to simulate a situation where fishermen can only land fish in WA or OR (inc strenght/impact of the distance effect on sampling locations). 
 
 3. Estimation Model:
-ModelComparison_FishSuitability_v10_6_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. 
+ModelComparison_FishSuitability_v10_6_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. Also provides code for BRT, and RMSE performance measures. 
 
 
 OLD CODE: 
