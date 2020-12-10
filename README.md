@@ -2,16 +2,16 @@
 Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change
 
 USE THESE FILES: 
-1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. 
+1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. Conversely, you can use the Dist_to_Port.csv file directly (which was created from running the Rscript).
 
 2. Operating Model:
-SimulatedWorld_ROMS_FishDep_UnequalCoverage.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. This updated OM increases the strength of the fishermen preference for high suitable habitat for target species, by including a new bias siutaiton called opt_sampled. This also changes to only using dp4 and dp5 (ports in WA and OR) for the distance bias situation to simulate a situation where fishermen can only land fish in WA or OR (inc strenght/impact of the distance effect on sampling locations). 
+SimulatedWorld_ROMS_FishDep_Final.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. This updated OM Explores 18 different fishing scenarios. 
 
 3. Estimation Model:
-ModelComparison_FishSuitability_v10_6_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. Also provides code for BRT, and RMSE performance measures. 
+ModelComparison_FishSuitability_v12_10_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. Also provides code for BRT, and RMSE performance measures. 
 
 
-OLD CODE: 
+OLD CODE: Old code can be found in the "Old_Code" folder. These include: 
 
 OPERATING MODELS:
 
