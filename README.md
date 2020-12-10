@@ -8,7 +8,10 @@ USE THESE FILES:
 SimulatedWorld_ROMS_FishDep_Final.R: Simulates the sampling design for the different fishery location choose biases with the detection probability = 1 with no correction for env suitability of the location. That is to say that is the species is present at a location it will always be detected. This updated OM Explores 18 different fishing scenarios. 
 
 3. Estimation Model:
-ModelComparison_FishSuitability_v12_10_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_NoDetProbCorrection.R function above to generate data, then builds an example GAM, makes predictions into the future 2011-2100, and plots results. Also provides code for BRT, and RMSE performance measures. 
+ModelComparison_FishSuitability_v12_10_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_Final.R function above to generate data, then builds GAM with and without Chla, and BRT with and without Chla, makes predictions into the future 2011-2100, and plots results. Also runs performance measures calling code from the varous performance measures code (described below). 
+
+4. Performance Metrics: 
+
 
 
 OLD CODE: Old code can be found in the "Old_Code" folder. These include: 
