@@ -85,7 +85,7 @@ SimulateWorld_ROMS_FishDepFun_Final <- function(dir, nsamples){
   years <- seq(1980,2100,1)
   
   #---Load in Distance to port file -----
-  dist_to_ports<-read.csv("~/DisMAP project/Location, Location, Location/Location Workshop/Dist_to_Ports.csv")
+  dist_to_ports<-read.csv("Dist_to_Ports.csv") #if you download from github repo as a new project then this will automatically point to correct working directory 
   
   #----Loop through each year----
   for (y in 1:121){
