@@ -1,5 +1,5 @@
 
-setwd("~/DisMAP project/Location, Location, Location/Location Workshop")
+#setwd("~/DisMAP project/Location, Location, Location/Location Workshop") #if pulled from repo as new project then would automatically be working directory, don't need to set this
 
 #----Load Library & Function----
 library(mgcv)
@@ -8,7 +8,7 @@ library(viridis)
 library(raster)
 library(gbm)
 library(dismo)
-source("~/DisMAP project/Location, Location, Location/Location Workshop/SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
+source("SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
 
 #Set parameters for functions
 dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" #directory where ROMS data is stored (on dropbox, email steph for access)
