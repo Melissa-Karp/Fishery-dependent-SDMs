@@ -17,8 +17,11 @@ USE THESE FILES:
   measures code (described below). 
 
 4. Performance Metrics: 
+  
   spatial_RMSE.R - calculates and maps the spatial error. That is the average error for each grid cell location over the historic and forecast time period. 
+  
   Performance_COR.R
+  
   Performance_RMSE.R
 
 
