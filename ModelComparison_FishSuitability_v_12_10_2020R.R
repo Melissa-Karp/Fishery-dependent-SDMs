@@ -8,12 +8,12 @@ library(viridis)
 library(raster)
 library(gbm)
 library(dismo)
-source("~/DisMAP project/Location, Location, Location/Location Workshop/SimulatedWorld_ROMS_FishDep_UnequalCoverage.R") #load ROMS simulation function
+source("~/DisMAP project/Location, Location, Location/Location Workshop/SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
 
 #Set parameters for functions
 dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" #directory where ROMS data is stored (on dropbox, email steph for access)
 
-dat <- SimulateWorld_ROMS_FishDepFun_WAORports(dir=dir, nsamples = 400) #takes a few mins
+#dat <- SimulateWorld_ROMS_FishDepFun_Final(dir=dir, nsamples = 100) #takes a few mins
 names(dat)[names(dat) == 'sst'] <- 'temp' #matching roms names. Quick temporary fix.
 #head(dat)
 dat<-read.csv('FisheryDependent_OM_Simulation_Final.csv', header=T, sep=",")
@@ -26,6 +26,7 @@ dat_fcast <- dat[dat$year>2010,] #forecast using 2011-2100
 
 dat_hist$log_abundance <- log(dat_hist$abundance)
 
+## still need to update code after this point....12/14/20
 
 dat_hist_random<-dat_hist[dat_hist$random_sampled>0,]
 dat_hist_Tar<-dat_hist[dat_hist$pref_sampled>0,]
