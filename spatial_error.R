@@ -10,10 +10,10 @@ library(tidyverse)
 library(gridExtra)
 library(raster)
 
-sdm_sqErr <- function(dat_hist, dat_fcast) {
+sdm_spErr <- function(dat_hist, dat_fcast) {
 
 # calculate error for each observation: pred-obs
- sqerr <- function(p,o) {
+ sperr <- function(p,o) {
   ((p-o))
  }
  
@@ -57,12 +57,12 @@ sdm_sqErr <- function(dat_hist, dat_fcast) {
  
  #Historic period Spatial error
  for (m in mods) {
-   spatial_err_all_hist[,m] <- round(sqerr(dat_hist[,m]), dat_hist$abundance, 3)
+   spatial_err_all_hist[,m] <- round(sperr(dat_hist[,m]), dat_hist$abundance, 3)
    }
 
  #Forecast period Spatial error
  for (m in mods) {
-     spatial_err_all_fcast[,m] <- round(sqerr(dat_fcast[,m]),dat_fcast$abundance, 3)
+     spatial_err_all_fcast[,m] <- round(sperr(dat_fcast[,m]),dat_fcast$abundance, 3)
  }
  
  ## Plot maps of error
