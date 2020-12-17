@@ -18,25 +18,25 @@ sdm_cor <- function(dat_hist, dat_fcast) {
     cor(p,o,method="spearman", use = "na.or.complete")
   }
   
-  all_mods <- c(c("gam_Ran_Abund", "gam_Tar_0.5_Abund", "gam_Tar_0.6_Abund", "gam_Tar_0.7_Abund", 
-                  "gam_Tar_0.8_Abund", "gam_Tar_0.9_Abund", "gam_Dist_npo_Abund", "gam_Dist_npn_Abund",
-                  "gam_Dist_mpo_Abund", "gam_Dist_mpn_Abund", "gam_Dist_spo_Abund", "gam_Dist_spn_Abund",
-                  "gam_Dist_allo_Abund", "gam_Dist_alln_Abund", "gam_BY_Abund", "gam_CA_small_Abund", 
-                  "gam_CA_med_Abund", "gam_CA_lar_Abund","brt_Ran","brt_Tar_0.5","brt_Tar_0.6",
+  all_mods <-   c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7", 
+                  "gam_Tar_0.8", "gam_Tar_0.9", "gam_Dist_npo", "gam_Dist_npn",
+                  "gam_Dist_mpo", "gam_Dist_mpn", "gam_Dist_spo", "gam_Dist_spn",
+                  "gam_Dist_allo", "gam_Dist_alln", "gam_BY", "gam_CA_small", 
+                  "gam_CA_med", "gam_CA_lar","brt_Ran","brt_Tar_0.5","brt_Tar_0.6",
                   "brt_Tar_0.7", "brt_Tar_0.8", "brt_Tar_0.9", "brt_Dist_npo", "brt_Dist_npn",
                   "brt_Dist_mpo","brt_Dist_mpn","brt_Dist_spo","brt_Dist_spn","brt_Dist_allo",
-                  "brt_Dist_alln", "brt_BY", "brt_CA_small", "brt_CA_med", "brt_CA_lar",
-                  "gam_Ran_Abund_nochl", "gam_Tar_0.5_Abund_nochl", "gam_Tar_0.6_Abund_nochl",
-                  "gam_Tar_0.7_Abund_nochl", "gam_Tar_0.8_Abund_nochl", "gam_Tar_0.9_Abund_nochl",
-                  "gam_Dist_npo_Abund_nochl", "gam_Dist_npn_Abund_nochl","gam_Dist_mpo_Abund_nochl",
-                  "gam_Dist_mpn_Abund_nochl","gam_Dist_spo_Abund_nochl","gam_Dist_spn_Abund_nochl",
-                  "gam_Dist_allo_Abund_nochl", "gam_Dist_alln_Abund_nochl","gam_BY_Abund_nochl",
-                  "gam_CA_small_Abund_nochl", "gam_CA_med_Abund_nochl", "gam_CA_lar_Abund_nochl",
+                  "brt_Dist_alln", "brt_BY", "brt_CA_sm", "brt_CA_med", "brt_CA_lar",
+                  "gam_Ran_nochl", "gam_Tar_0.5_nochl", "gam_Tar_0.6_nochl",
+                  "gam_Tar_0.7_nochl", "gam_Tar_0.8_nochl", "gam_Tar_0.9_nochl",
+                  "gam_Dist_npo_nochl", "gam_Dist_npn_nochl","gam_Dist_mpo_nochl",
+                  "gam_Dist_mpn_nochl","gam_Dist_spo_nochl","gam_Dist_spn_nochl",
+                  "gam_Dist_allo_nochl", "gam_Dist_alln_nochl","gam_BY_nochl",
+                  "gam_CA_sm_nochl", "gam_CA_med_nochl", "gam_CA_lar_nochl",
                   "brt_Ran_nochl", "brt_Tar_0.5_nochl", "brt_Tar_0.6_nochl", "brt_Tar_0.7_nochl",
                   "brt_Tar_0.8_nochl", "brt_Tar_0.9_nochl","brt_Dist_npo_nochl", "brt_Dist_npn_nochl",
                   "brt_Dist_mpo_nochl","brt_Dist_mpn_nochl","brt_Dist_spo_nochl","brt_Dist_spn_nochl",
-                  "brt_Dist_allo_nochl", "brt_Dist_alln_nochl", "brt_BY_nochl", "brt_CA_small_nochl",
-                  "brt_CA_med_nochl", "brt_CA_lar_nochl"))  #all possible models
+                  "brt_Dist_allo_nochl", "brt_Dist_alln_nochl", "brt_BY_nochl", "brt_CA_sm_nochl",
+                  "brt_CA_med_nochl", "brt_CA_lar_nochl")  #all possible models
   
   mods <- names(dat_hist)[names(dat_hist) %in% all_mods]   #which of the possible models have been run
   
