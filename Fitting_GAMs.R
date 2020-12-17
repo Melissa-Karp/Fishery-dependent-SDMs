@@ -31,9 +31,9 @@
   #Pref sampling - 0.5
   if("tar_0.5" %in% sampling) {
     gam_Tar_P_1 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_1, family=binomial)
-    #plot(gam_Tar_P, pages=1)
+    #plot(gam_Tar_P_1, pages=1)
     gam_Tar_N_1 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_1[dat_hist_Tar_1$abundance>0,], family=gaussian)
-    #plot(gam_Tar_N, pages=1)
+    #plot(gam_Tar_N_1, pages=1)
     
     dat_hist$presxT_1 <- predict(gam_Tar_P_1, dat_hist, type="response")
     abundxT_1 <- predict(gam_Tar_N_1, dat_hist, type="response")
@@ -46,9 +46,9 @@
   #Pref sampling -0.6
   if("tar_0.6" %in% sampling) {
     gam_Tar_P_2 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_2, family=binomial)
-    #plot(gam_Tar_P, pages=1)
+    #plot(gam_Tar_P_2, pages=1)
     gam_Tar_N_2 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_2[dat_hist_Tar_2$abundance>0,], family=gaussian)
-    #plot(gam_Tar_N, pages=1)
+    #plot(gam_Tar_N_2, pages=1)
     
     dat_hist$presxT_2 <- predict(gam_Tar_P_2, dat_hist, type="response")
     abundxT_2 <- predict(gam_Tar_N_2, dat_hist, type="response")
@@ -61,9 +61,9 @@
   #Pref sampling -0.7
   if("tar_0.7" %in% sampling) {
     gam_Tar_P_3 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_3, family=binomial)
-    #plot(gam_Tar_P, pages=1)
+    #plot(gam_Tar_P_3, pages=1)
     gam_Tar_N_3 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_3[dat_hist_Tar_3$abundance>0,], family=gaussian)
-    #plot(gam_Tar_N, pages=1)
+    #plot(gam_Tar_N_3, pages=1)
     
     dat_hist$presxT_3 <- predict(gam_Tar_P_3, dat_hist, type="response")
     abundxT_3 <- predict(gam_Tar_N_3, dat_hist, type="response")
@@ -76,9 +76,9 @@
   #Pref sampling -0.8
   if("tar_0.8" %in% sampling) {
     gam_Tar_P_4 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_4, family=binomial)
-    #plot(gam_Tar_P, pages=1)
+    #plot(gam_Tar_P_4, pages=1)
     gam_Tar_N_4 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_4[dat_hist_Tar_4$abundance>0,], family=gaussian)
-    #plot(gam_Tar_N, pages=1)
+    #plot(gam_Tar_N_4, pages=1)
     
     dat_hist$presxT_4 <- predict(gam_Tar_P_4, dat_hist, type="response")
     abundxT_4 <- predict(gam_Tar_N_4, dat_hist, type="response")
@@ -91,9 +91,9 @@
   #Pref sampling -0.9
   if("tar_0.9" %in% sampling) {
     gam_Tar_P_5 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_5, family=binomial)
-    #plot(gam_Tar_P, pages=1)
+    #plot(gam_Tar_P_5, pages=1)
     gam_Tar_N_5 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_5[dat_hist_Tar_5$abundance>0,], family=gaussian)
-    #plot(gam_Tar_N, pages=1)
+    #plot(gam_Tar_N_5, pages=1)
     
     dat_hist$presxT_5 <- predict(gam_Tar_P_5, dat_hist, type="response")
     abundxT_5 <- predict(gam_Tar_N_5, dat_hist, type="response")
@@ -293,3 +293,133 @@
     abundxCA_lar <- predict(gam_CA_N_lar, dat_fcast, type="response")
     dat_fcast$gam_CA_lar <- dat_fcast$presxCA_lar * exp(abundxCA_lar)
   }
+
+
+#### PLOTS ####
+#NOTE: if you are running individual models (not all of them) then will need to
+# "#" the below out and turn on the relevant lines for the specific models
+# being run above for it to work 
+
+#Env Cov 1
+  #Pres-Abs
+  par(mfrow=c(3,3))
+  plot(gam_Ran_P, select=1, main="gam_Ran, Pres-Abs", scale=0)
+  plot(gam_Tar_P_1, select=1, main="gam_Tar_0.5, Pres-Abs", scale=0)
+  plot(gam_Tar_P_2, select=1, main="gam_Tar_0.6, Pres-Abs", scale=0)
+  plot(gam_Tar_P_3, select=1, main="gam_Tar_0.7, Pres-Abs", scale=0)
+  plot(gam_Tar_P_4, select=1, main="gam_Tar_0.8, Pres-Abs", scale=0)
+  plot(gam_Tar_P_5, select=1, main="gam_Tar_0.9, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npo, select=1, main="gam_Dist_npo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npn, select=1, main="gam_Dist_npn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_spo, select=1, main="gam_Dist_spo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpo, select=1, main="gam_Dist_mpo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpn, select=1, main="gam_Dist_mpn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_allo, select=1, main="gam_Dist_allo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_alln, select=1, main="gam_Dist_alln, Pres-Abs", scale=0)
+  plot(gam_BY_P, select=1, main="gam_BY, Pres-Abs", scale=0)
+  plot(gam_CA_P_sm, select=1, main="gam_CA_sm, Pres-Abs", scale=0)
+  plot(gam_CA_P_med, select=1, main="gam_CA_med, Pres-Abs", scale=0)
+  plot(gam_CA_P_lar, select=1, main="gam_CA_lar, Pres-Abs", scale=0)
+  
+  #Abund
+  par(mfrow=c(3,3))
+  plot(gam_Ran_N, select=1, main="gam_Ran, Abund", scale=0)
+  plot(gam_Tar_N_1, select=1, main="gam_Tar_0.5, Abund", scale=0)
+  plot(gam_Tar_N_2, select=1, main="gam_Tar_0.6, Abund", scale=0)
+  plot(gam_Tar_N_3, select=1, main="gam_Tar_0.7, Abund", scale=0)
+  plot(gam_Tar_N_4, select=1, main="gam_Tar_0.8, Abund", scale=0)
+  plot(gam_Tar_N_5, select=1, main="gam_Tar_0.9, Abund", scale=0)
+  plot(gam_Dist_N_npo, select=1, main="gam_Dist_npo, Abund", scale=0)
+  plot(gam_Dist_N_npn, select=1, main="gam_Dist_npn, Abund", scale=0)
+  plot(gam_Dist_N_spo, select=1, main="gam_Dist_spo, Abund", scale=0)
+  plot(gam_Dist_N_mpo, select=1, main="gam_Dist_mpo, Abund", scale=0)
+  plot(gam_Dist_N_mpn, select=1, main="gam_Dist_mpn, Abund", scale=0)
+  plot(gam_Dist_N_allo, select=1, main="gam_Dist_allo, Abund", scale=0)
+  plot(gam_Dist_N_alln, select=1, main="gam_Dist_alln, Abund", scale=0)
+  plot(gam_BY_N, select=1, main="gam_BY, Abund", scale=0)
+  plot(gam_CA_N_sm, select=1, main="gam_CA_sm, Abund", scale=0)
+  plot(gam_CA_N_med, select=1, main="gam_CA_med, Abund", scale=0)
+  plot(gam_CA_N_lar, select=1, main="gam_CA_lar, Abund", scale=0)
+
+#Env Cov 2
+  #Pres-Abs
+  par(mfrow=c(3,3))
+  plot(gam_Ran_P, select=2, main="gam_Ran, Pres-Abs", scale=0)
+  plot(gam_Tar_P_1, select=2, main="gam_Tar_0.5, Pres-Abs", scale=0)
+  plot(gam_Tar_P_2, select=2, main="gam_Tar_0.6, Pres-Abs", scale=0)
+  plot(gam_Tar_P_3, select=2, main="gam_Tar_0.7, Pres-Abs", scale=0)
+  plot(gam_Tar_P_4, select=2, main="gam_Tar_0.8, Pres-Abs", scale=0)
+  plot(gam_Tar_P_5, select=2, main="gam_Tar_0.9, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npo, select=2, main="gam_Dist_npo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npn, select=2, main="gam_Dist_npn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_spo, select=2, main="gam_Dist_spo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpo, select=2, main="gam_Dist_mpo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpn, select=2, main="gam_Dist_mpn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_allo, select=2, main="gam_Dist_allo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_alln, select=2, main="gam_Dist_alln, Pres-Abs", scale=0)
+  plot(gam_BY_P, select=2, main="gam_BY, Pres-Abs", scale=0)
+  plot(gam_CA_P_sm, select=2, main="gam_CA_sm, Pres-Abs", scale=0)
+  plot(gam_CA_P_med, select=2, main="gam_CA_med, Pres-Abs", scale=0)
+  plot(gam_CA_P_lar, select=2, main="gam_CA_lar, Pres-Abs", scale=0)
+  
+  #Abund
+  par(mfrow=c(3,3))
+  plot(gam_Ran_N, select=2, main="gam_Ran, Abund", scale=0)
+  plot(gam_Tar_N_1, select=2, main="gam_Tar_0.5, Abund", scale=0)
+  plot(gam_Tar_N_2, select=2, main="gam_Tar_0.6, Abund", scale=0)
+  plot(gam_Tar_N_3, select=2, main="gam_Tar_0.7, Abund", scale=0)
+  plot(gam_Tar_N_4, select=2, main="gam_Tar_0.8, Abund", scale=0)
+  plot(gam_Tar_N_5, select=2, main="gam_Tar_0.9, Abund", scale=0)
+  plot(gam_Dist_N_npo, select=2, main="gam_Dist_npo, Abund", scale=0)
+  plot(gam_Dist_N_npn, select=2, main="gam_Dist_npn, Abund", scale=0)
+  plot(gam_Dist_N_spo, select=2, main="gam_Dist_spo, Abund", scale=0)
+  plot(gam_Dist_N_mpo, select=2, main="gam_Dist_mpo, Abund", scale=0)
+  plot(gam_Dist_N_mpn, select=2, main="gam_Dist_mpn, Abund", scale=0)
+  plot(gam_Dist_N_allo, select=2, main="gam_Dist_allo, Abund", scale=0)
+  plot(gam_Dist_N_alln, select=2, main="gam_Dist_alln, Abund", scale=0)
+  plot(gam_BY_N, select=2, main="gam_BY, Abund", scale=0)
+  plot(gam_CA_N_sm, select=2, main="gam_CA_sm, Abund", scale=0)
+  plot(gam_CA_N_med, select=2, main="gam_CA_med, Abund", scale=0)
+  plot(gam_CA_N_lar, select=2, main="gam_CA_lar, Abund", scale=0)
+  
+#Env Cov 3
+  #Pres-Abs
+  par(mfrow=c(3,3))
+  plot(gam_Ran_P, select=3, main="gam_Ran, Pres-Abs", scale=0)
+  plot(gam_Tar_P_1, select=3, main="gam_Tar_0.5, Pres-Abs", scale=0)
+  plot(gam_Tar_P_2, select=3, main="gam_Tar_0.6, Pres-Abs", scale=0)
+  plot(gam_Tar_P_3, select=3, main="gam_Tar_0.7, Pres-Abs", scale=0)
+  plot(gam_Tar_P_4, select=3, main="gam_Tar_0.8, Pres-Abs", scale=0)
+  plot(gam_Tar_P_5, select=3, main="gam_Tar_0.9, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npo, select=3, main="gam_Dist_npo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_npn, select=3, main="gam_Dist_npn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_spo, select=3, main="gam_Dist_spo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpo, select=3, main="gam_Dist_mpo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_mpn, select=3, main="gam_Dist_mpn, Pres-Abs", scale=0)
+  plot(gam_Dist_P_allo, select=3, main="gam_Dist_allo, Pres-Abs", scale=0)
+  plot(gam_Dist_P_alln, select=3, main="gam_Dist_alln, Pres-Abs", scale=0)
+  plot(gam_BY_P, select=3, main="gam_BY, Pres-Abs", scale=0)
+  plot(gam_CA_P_sm, select=3, main="gam_CA_sm, Pres-Abs", scale=0)
+  plot(gam_CA_P_med, select=3, main="gam_CA_med, Pres-Abs", scale=0)
+  plot(gam_CA_P_lar, select=3, main="gam_CA_lar, Pres-Abs", scale=0)
+  
+  #Abund
+  par(mfrow=c(3,3))
+  plot(gam_Ran_N, select=3, main="gam_Ran, Abund", scale=0)
+  plot(gam_Tar_N_1, select=3, main="gam_Tar_0.5, Abund", scale=0)
+  plot(gam_Tar_N_2, select=3, main="gam_Tar_0.6, Abund", scale=0)
+  plot(gam_Tar_N_3, select=3, main="gam_Tar_0.7, Abund", scale=0)
+  plot(gam_Tar_N_4, select=3, main="gam_Tar_0.8, Abund", scale=0)
+  plot(gam_Tar_N_5, select=3, main="gam_Tar_0.9, Abund", scale=0)
+  plot(gam_Dist_N_npo, select=3, main="gam_Dist_npo, Abund", scale=0)
+  plot(gam_Dist_N_npn, select=3, main="gam_Dist_npn, Abund", scale=0)
+  plot(gam_Dist_N_spo, select=3, main="gam_Dist_spo, Abund", scale=0)
+  plot(gam_Dist_N_mpo, select=3, main="gam_Dist_mpo, Abund", scale=0)
+  plot(gam_Dist_N_mpn, select=3, main="gam_Dist_mpn, Abund", scale=0)
+  plot(gam_Dist_N_allo, select=3, main="gam_Dist_allo, Abund", scale=0)
+  plot(gam_Dist_N_alln, select=3, main="gam_Dist_alln, Abund", scale=0)
+  plot(gam_BY_N, select=3, main="gam_BY, Abund", scale=0)
+  plot(gam_CA_N_sm, select=3, main="gam_CA_sm, Abund", scale=0)
+  plot(gam_CA_N_med, select=3, main="gam_CA_med, Abund", scale=0)
+  plot(gam_CA_N_lar, select=3, main="gam_CA_lar, Abund", scale=0)
+  
