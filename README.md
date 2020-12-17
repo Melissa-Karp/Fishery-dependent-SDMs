@@ -13,16 +13,16 @@ USE THESE FILES:
 
 3. Estimation Model:
 
-  ModelComparison_FishSuitability_v12_10_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_Final.R function above to generate data, then builds GAM with and without Chla,   and BRT with and without Chla, makes predictions into the future 2011-2100, and plots results. Also runs performance measures calling code from the varous performance  
+  ModelComparison_FishSuitability_v12_17_2020.R: this code uses the SimulatedWorld_ROMS_FishDep_Final.R function above to generate data, then builds GAM with and without Chla,   and BRT with and without Chla, makes predictions into the future 2011-2100, and plots results. Also runs performance measures calling code from the varous performance  
   measures code (described below). 
 
 4. Performance Metrics: 
   
-  spatial_RMSE.R - calculates and maps the spatial error. That is the average error for each grid cell location over the historic and forecast time period. 
+  spatial_error.R - calculates and maps the spatial error. That is the average error for each grid cell location over the historic and forecast time period. 
   
   Performance_COR.R
   
-  Performance_RMSE.R
+  Performance_RSME.R
 
 
 OLD CODE: Old code can be found in the "Old_Code" folder. These include: 
