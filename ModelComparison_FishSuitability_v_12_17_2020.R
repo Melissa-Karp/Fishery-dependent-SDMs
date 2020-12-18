@@ -109,8 +109,8 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
   source("Fitting_BRT_noChl.R") 
 
   #### save the Rdata to load later ####
-  saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
-  saveRDS(dat_fcast, "dat_fcast_results_full.rds")
+  saveRDS(dat_hist, "dat_hist_results_n100.rds")  # * 'full' [full models] or 'temp' [temp-only models]
+  saveRDS(dat_fcast, "dat_fcast_results_n100.rds")
   
   all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
                 "gam_Tar_0.9", "gam_Dist_npo", "gam_Dist_npn","gam_Dist_mpo", "gam_Dist_mpn",
@@ -130,7 +130,7 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
                 "brt_BY_nochl", "brt_CA_sm_nochl","brt_CA_med_nochl", "brt_CA_lar_nochl") 
   
   save(list = ls(pattern = paste0(all_mods, collapse="|")),
-       file = "saved_models_full.RData")  # * 'full' or 'temp'; this will save all models of these names, even when outdated, if they're in the environment
+       file = "saved_models_n100.RData")  # * 'nXXX' indicates sample size used in similation 
 
 
 ###################################
