@@ -1,5 +1,5 @@
 
-setwd("~/DisMAP project/Location, Location, Location/Location Workshop")
+#setwd("~/DisMAP project/Location, Location, Location/Location Workshop")
 
 #################################
 ##       Load Libraries        ##
@@ -16,8 +16,8 @@ library(dismo)
 ##       Data Simulation       ##
 #################################
 
-source("~/DisMAP project/Location, Location, Location/Location Workshop/SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
-dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" #directory where ROMS data is stored (on dropbox, email steph for access)
+source("SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
+dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" #directory where ROMS data is stored (on dropbox, email steph for access, will need to switch this to your local drive)
 
 dat <- SimulateWorld_ROMS_FishDepFun_Final(dir=dir, nsamples = 100) #takes a few mins
 names(dat)[names(dat) == 'sst'] <- 'temp' #matching roms names. Quick temporary fix.
@@ -88,22 +88,25 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
   sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                 "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                 "CA_sm", "CA_med", "CA_lar")
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_GAMs.R") 
+  source("Fitting_GAMs.R") 
   
   #### GAMS - Missing Covariate Model #####
   sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                 "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                 "CA_sm", "CA_med", "CA_lar")
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_GAM_noChl.R") 
+  source("Fitting_GAM_noChl.R") 
   
   #### Boosted Regression Trees (BRTs) - Full Model #####
   sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                 "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                 "CA_sm", "CA_med", "CA_lar")
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRTs.R") 
+  source("Fitting_BRTs.R") 
 
   #### Boosted Regression Trees (BRTs) - Missing Covariate Model #####
-
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("Fitting_BRT_nochl.R") 
 
   #### save the Rdata to load later ####
   saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
@@ -138,7 +141,7 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
   dat_fcast_early <- dat_fcast[dat_fcast$year >= 2020 & dat_fcast$year < 2060, ]
   
   ##RMSE - Abundance
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/PerformanceMeasures_RSME.R") 
+  source("PerformanceMeasures_RSME.R") 
   RMSE<-sdm_rmse(dat_hist=dat_hist, dat_fcast=dat_fcast)
   RMSE
   rmseall<-data.frame(RMSE$rmse_abund_all)
@@ -146,7 +149,7 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
     # barplot(rmseall$rmse_fcast~rmseall$model, main="Average RMSE Forecast", ylab="RMSE", xlab="",cex.names=0.7, las=2)
     
   ##Correlation - Abundance
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/Performance_COR.R") 
+  source("Performance_COR.R") 
   Cor_sdm<-sdm_cor(dat_hist=dat_hist, dat_fcast=dat_fcast)
   
   ##Center of Gravity 
@@ -156,11 +159,11 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
   rmsecog_y<-data.frame(RMSE_cog$cog_lat_fcast_y)
   
   ##Species Distribution Maps ---- NOT sure this is the best way to map these
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/SDM_plot_maps.R") 
+  source("SDM_plot_maps.R") 
   SDMmaps<-SDM_maps(dat_hist=dat_hist, dat_fcast=dat_fcast, YEARS=c("2000", "2040", "2100"))
  
   #spatial error
-  source("~/DisMAP project/Location, Location, Location/Location Workshop/spatial_error.R") 
+  source("spatial_error.R") 
   SRMSE<-sdm_spErr(dat_hist=dat_hist, dat_fcast=dat_fcast)
   
 
