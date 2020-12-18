@@ -106,7 +106,7 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
   sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                 "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                 "CA_sm", "CA_med", "CA_lar")
-  source("Fitting_BRT_nochl.R") 
+  source("Fitting_BRT_noChl.R") 
 
   #### save the Rdata to load later ####
   saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
