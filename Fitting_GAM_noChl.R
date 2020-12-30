@@ -20,7 +20,7 @@ if("ran" %in% sampling){
   dat_hist$gam_Ran_nochl <- dat_hist$presxR_nochl * exp(abundxR_nochl)  #predicted catch
   
   dat_fcast$presxR_nochl <- predict(gam_Ran_P_nochl, dat_fcast, type="response")
-  abundxR <- predict(gam_Ran_N_nochl, dat_fcast, type="response")
+  abundxR_nochl <- predict(gam_Ran_N_nochl, dat_fcast, type="response")
   dat_fcast$gam_Ran_nochl <- dat_fcast$presxR_nochl * exp(abundxR_nochl)
 }
 
