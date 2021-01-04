@@ -2,7 +2,7 @@
 ## Function to run BRTs on data from OM, with missing one of the Covariate so only have
 #  temp and mld, but no chl
 ## Function returns only the fitted and predicted values
-## modified my M.Karp 12/17/20
+## modified my M.Karp 1/04/21
 
 #############################
 #   Full Models- WITHOUT Chla  #
@@ -11,6 +11,7 @@
 ###Random sampling
 #
 if("ran" %in% sampling) {
+  print("Fitting BRT-RAN-nochl")
   brt_R_P_nochl <- gbm.step(data=dat_hist_random,
                       gbm.x = c(25, 27),
                       gbm.y = 'pres',
@@ -39,6 +40,7 @@ if("ran" %in% sampling) {
 #
 #Target sampling-0.5
 if("tar_0.5" %in% sampling){
+  print("Fitting BRT-Pref0.5-nochl")
   brt_T_P_1_nochl <- gbm.step(data=dat_hist_Tar_1,
                         gbm.x = c(25,27),
                         gbm.y = 'pres',
@@ -64,6 +66,7 @@ if("tar_0.5" %in% sampling){
 
 #Target sampling-0.6
 if("tar_0.6" %in% sampling){
+  print("Fitting BRT-Pref0.6-nochl")
   brt_T_P_2_nochl <- gbm.step(data=dat_hist_Tar_2,
                         gbm.x = c(25,27),
                         gbm.y = 'pres',
@@ -89,6 +92,7 @@ if("tar_0.6" %in% sampling){
 
 #Target sampling-0.7
 if("tar_0.7" %in% sampling){
+  print("Fitting BRT-Pref0.7-nochl")
   brt_T_P_3_nochl <- gbm.step(data=dat_hist_Tar_3,
                         gbm.x = c(25,27),
                         gbm.y = 'pres',
@@ -114,6 +118,7 @@ if("tar_0.7" %in% sampling){
 
 #Target sampling-0.8
 if("tar_0.8" %in% sampling){
+  print("Fitting BRT-Pref0.8-nochl")
   brt_T_P_4_nochl <- gbm.step(data=dat_hist_Tar_4,
                         gbm.x = c(25,27),
                         gbm.y = 'pres',
@@ -139,6 +144,7 @@ if("tar_0.8" %in% sampling){
 
 #Target sampling-0.9
 if("tar_0.9" %in% sampling){
+  print("Fitting BRT-Pref0.9-nochl")
   brt_T_P_5_nochl <- gbm.step(data=dat_hist_Tar_5,
                         gbm.x = c(25,27),
                         gbm.y = 'pres',
@@ -167,6 +173,7 @@ if("tar_0.9" %in% sampling){
 #
 #Northern Offshore
 if("npo" %in% sampling){
+  print("Fitting BRT-NPO-nochl")
   brt_dist_P_npo_nochl <- gbm.step(data=dat_hist_Dist_npo,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -192,6 +199,7 @@ if("npo" %in% sampling){
 
 #Northern Nearshore
 if("npn" %in% sampling){
+  print("Fitting BRT-NPN-nochl")
   brt_dist_P_npn_nochl <- gbm.step(data=dat_hist_Dist_npn,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -217,6 +225,7 @@ if("npn" %in% sampling){
 
 #Middle Offshore
 if("mpo" %in% sampling){
+  print("Fitting BRT-MPO-nochl")
   brt_dist_P_mpo_nochl <- gbm.step(data=dat_hist_Dist_mpo,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -242,6 +251,7 @@ if("mpo" %in% sampling){
 
 #Middle nearshore
 if("mpn" %in% sampling){
+  print("Fitting BRT-MPN-nochl")
   brt_dist_P_mpn_nochl <- gbm.step(data=dat_hist_Dist_mpn,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -267,6 +277,7 @@ if("mpn" %in% sampling){
 
 #Southern Offshore
 if("spo" %in% sampling){
+  print("Fitting BRT-SPO-nochl")
   brt_dist_P_spo_nochl <- gbm.step(data=dat_hist_Dist_spo,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -292,6 +303,7 @@ if("spo" %in% sampling){
 
 #Southern Nearshore
 if("spn" %in% sampling){
+  print("Fitting BRT-SPN-nochl")
   brt_dist_P_spn_nochl <- gbm.step(data=dat_hist_Dist_spn,
                              gbm.x = c(25,27),
                              gbm.y = 'pres',
@@ -317,6 +329,7 @@ if("spn" %in% sampling){
 
 #All Offshore
 if("allo" %in% sampling){
+  print("Fitting BRT-ALLO-nochl")
   brt_dist_P_allo_nochl <- gbm.step(data=dat_hist_Dist_allo,
                               gbm.x = c(25,27),
                               gbm.y = 'pres',
@@ -342,6 +355,7 @@ if("allo" %in% sampling){
 
 #All Nearshore
 if("alln" %in% sampling){
+  print("Fitting BRT-ALLN-nochl")
   brt_dist_P_alln_nochl <- gbm.step(data=dat_hist_Dist_alln,
                               gbm.x = c(25,27),
                               gbm.y = 'pres',
@@ -368,6 +382,7 @@ if("alln" %in% sampling){
 ## Bycatch + Opt Target Sampling
 #
 if("BY" %in% sampling){
+  print("Fitting BRT-BY-nochl")
   brt_B_P_nochl <- gbm.step(data=dat_hist_BY,
                       gbm.x = c(25,27),
                       gbm.y = 'pres',
@@ -396,6 +411,7 @@ if("BY" %in% sampling){
 #
 # Small Closed Area
 if("CA_sm" %in% sampling){
+  print("Fitting BRT-CASM-nochl")
   brt_CA_P_sm_nochl <- gbm.step(data=dat_hist_CA_sm,
                           gbm.x = c(25,27),
                           gbm.y = 'pres',
@@ -421,6 +437,7 @@ if("CA_sm" %in% sampling){
 
 # Medium Closed Area
 if("CA_med" %in% sampling){
+  print("Fitting BRT-CAMED-nochl")
   brt_CA_P_med_nochl <- gbm.step(data=dat_hist_CA_med,
                            gbm.x = c(25,27),
                            gbm.y = 'pres',
@@ -446,6 +463,7 @@ if("CA_med" %in% sampling){
 
 # Large Closed Area
 if("CA_lar" %in% sampling){
+  print("Fitting BRT-CALAR-nochl")
   brt_CA_P_lar_nochl <- gbm.step(data=dat_hist_CA_lar,
                            gbm.x = c(25,27),
                            gbm.y = 'pres',
@@ -504,3 +522,4 @@ if("CA_lar" %in% sampling){
   gbm.plot(brt_CA_N_med_nochl, write.title=F, main="brt_CA_N_med", plot.layout = c(2,2))
   gbm.plot(brt_CA_P_lar_nochl, write.title=F, main="brt_CA_P_lar", plot.layout = c(2,2))
   gbm.plot(brt_CA_N_lar_nochl, write.title=F, main="brt_CA_N_lar", plot.layout = c(2,2))
+
