@@ -1,7 +1,7 @@
 ### Fishery-dependent SDM (L^3) Estimation Model Code
 ## Function to run BRTs on data from OM, with all Covariates (temp, chla, mld)
 ## Function returns only the fitted and predicted values
-## modified my M.Karp 12/16/20
+## modified my M.Karp 1/04/21
 
 #############################
 #   Full Models- with Chla  #
@@ -10,6 +10,7 @@
 ###Random sampling
 #
     if("ran" %in% sampling) {
+    print("Fitting BRT-Ran")
     brt_R_P <- gbm.step(data=dat_hist_random,
                         gbm.x = c(25, 27, 28),
                         gbm.y = 'pres',
@@ -38,6 +39,7 @@
 #
     #Target sampling-0.5
     if("tar_0.5" %in% sampling){
+      print("Fitting BRT-Pref0.5")
       brt_T_P_1 <- gbm.step(data=dat_hist_Tar_1,
                           gbm.x = c(25,27,28),
                           gbm.y = 'pres',
@@ -63,6 +65,7 @@
 
     #Target sampling-0.6
     if("tar_0.6" %in% sampling){
+      print("Fitting BRT-Pref0.6")
       brt_T_P_2 <- gbm.step(data=dat_hist_Tar_2,
                             gbm.x = c(25,27,28),
                             gbm.y = 'pres',
@@ -88,6 +91,7 @@
 
     #Target sampling-0.7
     if("tar_0.7" %in% sampling){
+      print("Fitting BRT-Pref0.7")
       brt_T_P_3 <- gbm.step(data=dat_hist_Tar_3,
                             gbm.x = c(25,27,28),
                             gbm.y = 'pres',
@@ -113,6 +117,7 @@
 
     #Target sampling-0.8
     if("tar_0.8" %in% sampling){
+      print("Fitting BRT-Pref0.8")
       brt_T_P_4 <- gbm.step(data=dat_hist_Tar_4,
                             gbm.x = c(25,27,28),
                             gbm.y = 'pres',
@@ -138,6 +143,7 @@
 
     #Target sampling-0.9
     if("tar_0.9" %in% sampling){
+      print("Fitting BRT-Pref0.9")
       brt_T_P_5 <- gbm.step(data=dat_hist_Tar_5,
                             gbm.x = c(25,27,28),
                             gbm.y = 'pres',
@@ -166,6 +172,7 @@
 #
     #Northern Offshore
     if("npo" %in% sampling){
+      print("Fitting BRT-NPO")
       brt_dist_P_npo <- gbm.step(data=dat_hist_Dist_npo,
                             gbm.x = c(25,27,28),
                             gbm.y = 'pres',
@@ -191,6 +198,7 @@
   
     #Northern Nearshore
     if("npn" %in% sampling){
+      print("Fitting BRT-NPN")
       brt_dist_P_npn <- gbm.step(data=dat_hist_Dist_npn,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -216,6 +224,7 @@
 
     #Middle Offshore
     if("mpo" %in% sampling){
+      print("Fitting BRT-MPO")
       brt_dist_P_mpo <- gbm.step(data=dat_hist_Dist_mpo,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -241,6 +250,7 @@
 
     #Middle nearshore
     if("mpn" %in% sampling){
+      print("Fitting BRT-MPN")
       brt_dist_P_mpn <- gbm.step(data=dat_hist_Dist_mpn,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -266,6 +276,7 @@
 
     #Southern Offshore
     if("spo" %in% sampling){
+      print("Fitting BRT-SPO")
       brt_dist_P_spo <- gbm.step(data=dat_hist_Dist_spo,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -291,6 +302,7 @@
 
     #Southern Nearshore
     if("spn" %in% sampling){
+      print("Fitting BRT-SPN")
       brt_dist_P_spn <- gbm.step(data=dat_hist_Dist_spn,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -316,6 +328,7 @@
 
     #All Offshore
     if("allo" %in% sampling){
+      print("Fitting BRT-ALLO")
       brt_dist_P_allo <- gbm.step(data=dat_hist_Dist_allo,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -341,6 +354,7 @@
 
     #All Nearshore
     if("alln" %in% sampling){
+      print("Fitting BRT-ALLN")
       brt_dist_P_alln <- gbm.step(data=dat_hist_Dist_alln,
                                  gbm.x = c(25,27,28),
                                  gbm.y = 'pres',
@@ -367,6 +381,7 @@
 ## Bycatch + Opt Target Sampling
 #
     if("BY" %in% sampling){
+      print("Fitting BRT-BY")
       brt_B_P <- gbm.step(data=dat_hist_BY,
                           gbm.x = c(25,27,28),
                           gbm.y = 'pres',
@@ -395,6 +410,7 @@
 #
     # Small Closed Area
     if("CA_sm" %in% sampling){
+      print("Fitting BRT-CASM")
       brt_CA_P_sm <- gbm.step(data=dat_hist_CA_sm,
                            gbm.x = c(25,27,28),
                            gbm.y = 'pres',
@@ -420,6 +436,7 @@
 
     # Medium Closed Area
     if("CA_med" %in% sampling){
+      print("Fitting BRT-CAMED")
       brt_CA_P_med <- gbm.step(data=dat_hist_CA_med,
                               gbm.x = c(25,27,28),
                               gbm.y = 'pres',
@@ -445,6 +462,7 @@
 
     # Large Closed Area
     if("CA_lar" %in% sampling){
+      print("Fitting BRT-CALAR")
       brt_CA_P_lar <- gbm.step(data=dat_hist_CA_lar,
                               gbm.x = c(25,27,28),
                               gbm.y = 'pres',
