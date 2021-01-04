@@ -1,7 +1,7 @@
 ### Fishery-dependent SDM (L^3) Estimation Model Code
 ## Function to run GAMs on data from OM
 ## Function returns only the fitted and predicted values
-#modified my M.Karp 12/15/20
+#modified my M.Karp 1/04/20
 
 
 #############################
@@ -11,6 +11,7 @@
 ##### Random sampling ####
 #
   if("ran" %in% sampling){
+    print("Fitting GAM-Ran")
     gam_Ran_P <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_random, family=binomial) #note - chl-surface is log of chl-surface
     #plot(gam_Ran_P, pages=1)
     gam_Ran_N <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_random[dat_hist_random$abundance>0,], family=gaussian)
@@ -30,6 +31,7 @@
 #
   #Pref sampling - 0.5
   if("tar_0.5" %in% sampling) {
+    print("Fitting GAM-Pref0.5")
     gam_Tar_P_1 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_1, family=binomial)
     #plot(gam_Tar_P_1, pages=1)
     gam_Tar_N_1 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_1[dat_hist_Tar_1$abundance>0,], family=gaussian)
@@ -45,6 +47,7 @@
   }
   #Pref sampling -0.6
   if("tar_0.6" %in% sampling) {
+    print("Fitting GAM-Pref0.6")
     gam_Tar_P_2 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_2, family=binomial)
     #plot(gam_Tar_P_2, pages=1)
     gam_Tar_N_2 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_2[dat_hist_Tar_2$abundance>0,], family=gaussian)
@@ -60,6 +63,7 @@
   }
   #Pref sampling -0.7
   if("tar_0.7" %in% sampling) {
+    print("Fitting GAM-Pref0.7")
     gam_Tar_P_3 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_3, family=binomial)
     #plot(gam_Tar_P_3, pages=1)
     gam_Tar_N_3 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_3[dat_hist_Tar_3$abundance>0,], family=gaussian)
@@ -75,6 +79,7 @@
   }
   #Pref sampling -0.8
   if("tar_0.8" %in% sampling) {
+    print("Fitting GAM-Pref0.8")
     gam_Tar_P_4 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_4, family=binomial)
     #plot(gam_Tar_P_4, pages=1)
     gam_Tar_N_4 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_4[dat_hist_Tar_4$abundance>0,], family=gaussian)
@@ -90,6 +95,7 @@
   }
   #Pref sampling -0.9
   if("tar_0.9" %in% sampling) {
+    print("Fitting GAM-Pref0.9")
     gam_Tar_P_5 <- gam(pres~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_5, family=binomial)
     #plot(gam_Tar_P_5, pages=1)
     gam_Tar_N_5 <- gam(log_abundance~s(temp)+ s(mld) + s(chl_surface), data=dat_hist_Tar_5[dat_hist_Tar_5$abundance>0,], family=gaussian)
@@ -109,6 +115,7 @@
 #
   #Dist sampling - NPO
   if("npo" %in% sampling){
+    print("Fitting GAM-NPO")
     gam_Dist_P_npo <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_npo, family=binomial)
     #plot(gam_Dist_P_npo, pages=1)
     gam_Dist_N_npo <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_npo[dat_hist_Dist_npo$abundance>0,], family=gaussian)
@@ -124,6 +131,7 @@
   }
   #Dist sampling - NPN
   if("npn" %in% sampling){
+    print("Fitting GAM-NPN")
     gam_Dist_P_npn <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_npn, family=binomial)
     #plot(gam_Dist_P_npn, pages=1)
     gam_Dist_N_npn <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_npn[dat_hist_Dist_npn$abundance>0,], family=gaussian)
@@ -139,6 +147,7 @@
   }
   #Dist sampling - MPO
   if("mpo" %in% sampling){
+    print("Fitting GAM-MPO")
     gam_Dist_P_mpo <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_mpo, family=binomial)
     #plot(gam_Dist_P_mpo, pages=1)
     gam_Dist_N_mpo <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_mpo[dat_hist_Dist_mpo$abundance>0,], family=gaussian)
@@ -154,6 +163,7 @@
   }
   #Dist sampling - MPN
   if("mpn" %in% sampling){
+    print("Fitting GAM-MPN")
     gam_Dist_P_mpn <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_mpn, family=binomial)
     #plot(gam_Dist_P_mpn, pages=1)
     gam_Dist_N_mpn <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_mpn[dat_hist_Dist_mpn$abundance>0,], family=gaussian)
@@ -169,6 +179,7 @@
   }
   #Dist sampling - SPO
   if("spo" %in% sampling){
+    print("Fitting GAM-SPO")
     gam_Dist_P_spo <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_spo, family=binomial)
     #plot(gam_Dist_P_spo, pages=1)
     gam_Dist_N_spo <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_spo[dat_hist_Dist_spo$abundance>0,], family=gaussian)
@@ -184,6 +195,7 @@
   }
   #Dist sampling - SPN
   if("spn" %in% sampling){
+    print("Fitting GAM-SPN")
     gam_Dist_P_spn <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_spn, family=binomial)
     #plot(gam_Dist_P_spn, pages=1)
     gam_Dist_N_spn <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_spn[dat_hist_Dist_spn$abundance>0,], family=gaussian)
@@ -199,6 +211,7 @@
   }
   #Dist sampling - ALLO
   if("allo" %in% sampling){
+    print("Fitting GAM-ALLO")
     gam_Dist_P_allo <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_allo, family=binomial)
     #plot(gam_Dist_P_allo, pages=1)
     gam_Dist_N_allo <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_allo[dat_hist_Dist_allo$abundance>0,], family=gaussian)
@@ -214,6 +227,7 @@
   }
   #Dist sampling - Alln
   if("alln" %in% sampling){
+    print("Fitting GAM-ALLN")
     gam_Dist_P_alln <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_alln, family=binomial)
     #plot(gam_Dist_P_alln, pages=1)
     gam_Dist_N_alln <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_Dist_alln[dat_hist_Dist_alln$abundance>0,], family=gaussian)
@@ -231,6 +245,7 @@
 ######BY sampling
 #
   if("BY" %in% sampling){
+    print("Fitting GAM-BY")
     gam_BY_P <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_BY, family=binomial)
     #plot(gam_BY_P, pages=1)
     gam_BY_N <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_BY[dat_hist_BY$abundance>0,], family=gaussian)
@@ -250,6 +265,7 @@
 #
   #Closed Area - Small
   if("CA_sm" %in% sampling) {
+    print("Fitting GAM-CASM")
     gam_CA_P_sm <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_sm, family=binomial)
     #plot(gam_CA_P_sm, pages=1)
     gam_CA_N_sm <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_sm[dat_hist_CA_sm$abundance>0,], family=gaussian)
@@ -265,6 +281,7 @@
   }
   #Closed Area - Medium
   if("CA_med" %in% sampling) {
+    print("Fitting GAM-CAMED")
     gam_CA_P_med <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_med, family=binomial)
     #plot(gam_CA_P_med, pages=1)
     gam_CA_N_med <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_med[dat_hist_CA_med$abundance>0,], family=gaussian)
@@ -280,6 +297,7 @@
   }
   #Closed Area - Large
   if("CA_lar" %in% sampling) {
+    print("Fitting GAM-CALAR")
     gam_CA_P_lar <- gam(pres~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_lar, family=binomial)
     #plot(gam_CA_P_lar, pages=1)
     gam_CA_N_lar <- gam(log_abundance~s(temp) + s(mld) + s(chl_surface), data=dat_hist_CA_lar[dat_hist_CA_lar$abundance>0,], family=gaussian)
