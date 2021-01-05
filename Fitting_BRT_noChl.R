@@ -215,7 +215,7 @@ if("npn" %in% sampling){
                              plot.main=FALSE, verbose = FALSE)
   
   presDx_npn <- predict(brt_dist_P_npn_nochl, dat_hist, n.trees=brt_dist_P_npn_nochl$gbm.call$best.trees, type="response")
-  abundDx_npn <- exp(predict(brt_dist_N_npn, dat_hist, n.trees=brt_dist_N_npn_nochl$gbm.call$best.trees, type="response"))
+  abundDx_npn <- exp(predict(brt_dist_N_npn_nochl, dat_hist, n.trees=brt_dist_N_npn_nochl$gbm.call$best.trees, type="response"))
   dat_hist$brt_Dist_npn_nochl <- presDx_npn * abundDx_npn
   
   presDx_npn <- predict(brt_dist_P_npn_nochl, dat_fcast, n.trees=brt_dist_P_npn_nochl$gbm.call$best.trees, type="response")
@@ -482,7 +482,7 @@ if("CA_lar" %in% sampling){
   abundCAx_lar <- exp(predict(brt_CA_N_lar_nochl, dat_hist, n.trees=brt_CA_N_lar_nochl$gbm.call$best.trees, type="response"))
   dat_hist$brt_CA_lar_nochl <- presCAx_lar * abundCAx_lar
   
-  presCAx_lar <- predict(brt_CA_P_lar-nochl, dat_fcast, n.trees=brt_CA_P_lar_nochl$gbm.call$best.trees, type="response")
+  presCAx_lar <- predict(brt_CA_P_lar_nochl, dat_fcast, n.trees=brt_CA_P_lar_nochl$gbm.call$best.trees, type="response")
   abundCAx_lar <- exp(predict(brt_CA_N_lar_nochl, dat_fcast, n.trees=brt_CA_N_lar_nochl$gbm.call$best.trees, type="response"))
   dat_fcast$brt_CA_lar_nochl<- presCAx_lar * abundCAx_lar
 }
