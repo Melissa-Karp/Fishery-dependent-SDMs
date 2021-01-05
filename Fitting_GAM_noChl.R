@@ -304,75 +304,8 @@
       gam_CA_N_lar_nochl <- gam(log_abundance~s(temp) + s(mld), data=dat_hist_CA_lar[dat_hist_CA_lar$abundance>0,], family=gaussian)
       #plot(gam_CA_N_lar_nochl, pages=1)
       
-      dat_hist$presxCA_lar_nochl <- predict(gam_CA_P_lar, dat_hist, type="response")
-      abundxCA_lar_nochl <- predict(gam_CA_N_lar, dat_hist, type="response")
-      dat_hist$gam_CA_lar_nochl <- dat_hist$presxCA_lar_nochl * exp(abundxCA_lar_nochl)
-      
-      dat_fcast$presxCA_lar_nochl <- predict(gam_CA_P_lar_nochl, dat_fcast, type="response")
-      abundxCA_lar_nochl <- predict(gam_CA_N_lar_nochl, dat_fcast, type="response")
-      dat_fcast$gam_CA_lar_nochl <- dat_fcast$presxCA_lar_nochl * exp(abundxCA_lar_nochl)
-    }
-    
-#
-######BY sampling
-#
-    if("BY" %in% sampling){
-      gam_BY_P_nochl <- gam(pres~s(temp) + s(mld), data=dat_hist_BY, family=binomial)
-      #plot(gam_BY_P_nochl, pages=1)
-      gam_BY_N_nochl<- gam(log_abundance~s(temp) + s(mld), data=dat_hist_BY[dat_hist_BY$abundance>0,], family=gaussian)
-      #plot(gam_BY_N_nochl, pages=1)
-      
-      dat_hist$presxB_nochl <- predict(gam_BY_P_nochl, dat_hist, type="response")
-      abundxB_nochl <- predict(gam_BY_N_nochl, dat_hist, type="response")
-      dat_hist$gam_BY_nochl <- dat_hist$presxB_nochl * exp(abundxB_nochl)
-      
-      dat_fcast$presxB_nochl <- predict(gam_BY_P_nochl, dat_fcast, type="response")
-      abundxB_nochl <- predict(gam_BY_N_nochl, dat_fcast, type="response")
-      dat_fcast$gam_BY_nochl <- dat_fcast$presxB_nochl * exp(abundxB_nochl)
-    }
-    
-#
-#####Closed Area Sampling
-#
-    #Closed Area - Small
-    if("CA_sm" %in% sampling) {
-      gam_CA_P_sm_nochl <- gam(pres~s(temp) + s(mld), data=dat_hist_CA_sm, family=binomial)
-      #plot(gam_CA_P_sm_nochl, pages=1)
-      gam_CA_N_sm_nochl <- gam(log_abundance~s(temp) + s(mld), data=dat_hist_CA_sm[dat_hist_CA_sm$abundance>0,], family=gaussian)
-      #plot(gam_CA_N_sm_nochl, pages=1)
-      
-      dat_hist$presxCA_sm_nochl <- predict(gam_CA_P_sm_nochl, dat_hist, type="response")
-      abundxCA_sm_nochl <- predict(gam_CA_N_sm_nochl, dat_hist, type="response")
-      dat_hist$gam_CA_sm_nochl <- dat_hist$presxCA_sm_nochl * exp(abundxCA_sm_nochl)
-      
-      dat_fcast$presxCA_sm_nochl <- predict(gam_CA_P_sm_nochl, dat_fcast, type="response")
-      abundxCA_sm_nochl <- predict(gam_CA_N_sm_nochl, dat_fcast, type="response")
-      dat_fcast$gam_CA_sm_nochl <- dat_fcast$presxCA_sm_nochl * exp(abundxCA_sm_nochl)
-    }
-    #Closed Area - Medium
-    if("CA_med" %in% sampling) {
-      gam_CA_P_med_nochl <- gam(pres~s(temp) + s(mld), data=dat_hist_CA_med, family=binomial)
-      #plot(gam_CA_P_med_nochl, pages=1)
-      gam_CA_N_med_nochl <- gam(log_abundance~s(temp) + s(mld), data=dat_hist_CA_med[dat_hist_CA_med$abundance>0,], family=gaussian)
-      #plot(gam_CA_N_med_nochl, pages=1)
-      
-      dat_hist$presxCA_med_nochl <- predict(gam_CA_P_med_nochl, dat_hist, type="response")
-      abundxCA_med_nochl <- predict(gam_CA_N_med_nochl, dat_hist, type="response")
-      dat_hist$gam_CA_med_nochl <- dat_hist$presxCA_med_nochl * exp(abundxCA_med_nochl)
-      
-      dat_fcast$presxCA_med_nochl <- predict(gam_CA_P_med_nochl, dat_fcast, type="response")
-      abundxCA_med_nochl <- predict(gam_CA_N_med_nochl, dat_fcast, type="response")
-      dat_fcast$gam_CA_med_nochl <- dat_fcast$presxCA_med_nochl * exp(abundxCA_med_nochl)
-    }
-    #Closed Area - Large
-    if("CA_lar" %in% sampling) {
-      gam_CA_P_lar_nochl <- gam(pres~s(temp) + s(mld), data=dat_hist_CA_lar, family=binomial)
-      #plot(gam_CA_P_lar_nochl, pages=1)
-      gam_CA_N_lar_nochl <- gam(log_abundance~s(temp) + s(mld), data=dat_hist_CA_lar[dat_hist_CA_lar$abundance>0,], family=gaussian)
-      #plot(gam_CA_N_lar_nochl, pages=1)
-      
-      dat_hist$presxCA_lar_nochl <- predict(gam_CA_P_lar, dat_hist, type="response")
-      abundxCA_lar_nochl <- predict(gam_CA_N_lar, dat_hist, type="response")
+      dat_hist$presxCA_lar_nochl <- predict(gam_CA_P_lar_nochl, dat_hist, type="response")
+      abundxCA_lar_nochl <- predict(gam_CA_N_lar_nochl, dat_hist, type="response")
       dat_hist$gam_CA_lar_nochl <- dat_hist$presxCA_lar_nochl * exp(abundxCA_lar_nochl)
       
       dat_fcast$presxCA_lar_nochl <- predict(gam_CA_P_lar_nochl, dat_fcast, type="response")
@@ -465,4 +398,5 @@
   plot(gam_CA_N_sm_nochl, select=2, main="gam_CA_sm Nochl, Abund", scale=0)
   plot(gam_CA_N_med_nochl, select=2, main="gam_CA_med Nochl, Abund", scale=0)
   plot(gam_CA_N_lar_nochl, select=2, main="gam_CA_lar Nochl, Abund", scale=0)
+  
   
