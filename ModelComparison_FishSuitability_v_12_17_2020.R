@@ -17,7 +17,7 @@ library(dismo)
 #################################
 
 source("SimulatedWorld_ROMS_FishDep_Final.R") #load ROMS simulation function
-dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" #directory where ROMS data is stored (on dropbox, email steph for access, will need to switch this to your local drive)
+dir <- "~/DisMAP project/Location, Location, Location/Location Workshop/ROMS/hadley" # you will need to change this to be your directory where ROMS data is stored (on dropbox, email steph for access, will need to switch this to your local drive)
 
 dat <- SimulateWorld_ROMS_FishDepFun_Final(dir=dir, nsamples = 100) #takes a few mins
 names(dat)[names(dat) == 'sst'] <- 'temp' #matching roms names. Quick temporary fix.
@@ -80,25 +80,25 @@ dat_hist_CA_la<-dat_hist[dat_hist$Closed_sampled_3>0,]
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_SpaceTime.R") 
+    source("GAM_SpaceTime.R") 
 
   #### GAMS - Full Model time-space tensor #####
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_nochl_SpaceTime.R") 
+    source("GAM_nochl_SpaceTime.R") 
 
   #### Boosted Regression Trees (BRTs) - Full Model #####
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRTs.R") 
+    source("Fitting_BRTs.R") 
 
   #### Boosted Regression Trees (BRTs) - Missing Covariate Model #####
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRT_noChl.R") 
+    source("Fitting_BRT_noChl.R") 
 
   #### save the Rdata to load later ####
   saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
