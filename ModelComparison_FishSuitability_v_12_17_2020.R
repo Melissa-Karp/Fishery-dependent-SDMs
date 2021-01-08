@@ -52,33 +52,13 @@ dat_hist_CA_sm<-dat_hist[dat_hist$Closed_sampled_1>0,]
 dat_hist_CA_med<-dat_hist[dat_hist$Closed_sampled_2>0,]
 dat_hist_CA_la<-dat_hist[dat_hist$Closed_sampled_3>0,]
 
-dat_fcast_random<-dat_fcast[dat_fcast$random_sampled>0,]
-dat_fcast_Tar_1<-dat_fcast[dat_fcast$pref_sampled_1>0,]
-dat_fcast_Tar_2<-dat_fcast[dat_fcast$pref_sampled_2>0,]
-dat_fcast_Tar_3<-dat_fcast[dat_fcast$pref_sampled_3>0,]
-dat_fcast_Tar_4<-dat_fcast[dat_fcast$pref_sampled_4>0,]
-dat_fcast_Tar_5<-dat_fcast[dat_fcast$pref_sampled_5>0,]
-dat_fcast_Dist_npo<-dat_fcast[dat_fcast$dist_sampled_npo>0,]
-dat_fcast_Dist_npn<-dat_fcast[dat_fcast$dist_sampled_npn>0,]
-dat_fcast_Dist_mpo<-dat_fcast[dat_fcast$dist_sampled_mpo>0,]
-dat_fcast_Dist_mpn<-dat_fcast[dat_fcast$dist_sampled_mpn>0,]
-dat_fcast_Dist_spo<-dat_fcast[dat_fcast$dist_sampled_spo>0,]
-dat_fcast_Dist_spn<-dat_fcast[dat_fcast$dist_sampled_spn>0,]
-dat_fcast_Dist_allo<-dat_fcast[dat_fcast$dist_sampled_allo>0,]
-dat_fcast_Dist_alln<-dat_fcast[dat_fcast$dist_sampled_alln>0,]
-dat_fcast_BY<-dat_fcast[dat_fcast$BY_sampled>0,]
-dat_fcast_CA_sm<-dat_fcast[dat_fcast$Closed_sampled_1>0,]
-dat_fcast_CA_med<-dat_fcast[dat_fcast$Closed_sampled_2>0,]
-dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
-
-
 ###########################
 #   MODEL FITTING         #
 ###########################
 #sampling scenario options: ran, tar_0.5, tar_0.6, tar_0.7, tar_0.8, tar_0.9, npo, npn, mpo,
 # mpn, spo, spn, allo, alln, BY, CA_sm, CA_med, CA_lar
-#total of 18 different sampling scenarios/rules X 2 model algorithms x 2 covariate combinations
-#total of 72 possible models
+#total of 18 different sampling scenarios/rules X 2 model algorithms x 2 covariate combinations, and 2 additional GAMS with spacetime tensors
+#total of 108 possible models
 
 #NOTE: if you are running individual models (not all of them) then will need to
 # go into each fitting code and "#" the "PlOTS" section out and turn on the relevant 
@@ -96,21 +76,33 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
                 "CA_sm", "CA_med", "CA_lar")
   source("Fitting_GAM_noChl.R") 
   
+  #### GAMS - Full Model time-space tensor #####
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_SpaceTime.R") 
+
+  #### GAMS - Full Model time-space tensor #####
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_nochl_SpaceTime.R") 
+
   #### Boosted Regression Trees (BRTs) - Full Model #####
-  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
-                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
-                "CA_sm", "CA_med", "CA_lar")
-  source("Fitting_BRTs.R") 
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRTs.R") 
 
   #### Boosted Regression Trees (BRTs) - Missing Covariate Model #####
-  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
-                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
-                "CA_sm", "CA_med", "CA_lar")
-  source("Fitting_BRT_noChl.R") 
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRT_noChl.R") 
 
   #### save the Rdata to load later ####
-  saveRDS(dat_hist, "dat_hist_results_n100.rds")  # * 'full' [full models] or 'temp' [temp-only models]
-  saveRDS(dat_fcast, "dat_fcast_results_n100.rds")
+  saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
+  saveRDS(dat_fcast, "dat_fcast_results_full.rds")
   
   all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
                 "gam_Tar_0.9", "gam_Dist_npo", "gam_Dist_npn","gam_Dist_mpo", "gam_Dist_mpn",
@@ -127,7 +119,17 @@ dat_fcast_CA_la<-dat_fcast[dat_hist$Closed_sampled_3>0,]
                 "brt_Tar_0.6_nochl", "brt_Tar_0.7_nochl", "brt_Tar_0.8_nochl", "brt_Tar_0.9_nochl",
                 "brt_Dist_npo_nochl", "brt_Dist_npn_nochl","brt_Dist_mpo_nochl","brt_Dist_mpn_nochl",
                 "brt_Dist_spo_nochl","brt_Dist_spn_nochl","brt_Dist_allo_nochl", "brt_Dist_alln_nochl",
-                "brt_BY_nochl", "brt_CA_sm_nochl","brt_CA_med_nochl", "brt_CA_lar_nochl") 
+                "brt_BY_nochl", "brt_CA_sm_nochl","brt_CA_med_nochl", "brt_CA_lar_nochl", "gam_Ran_te", 
+                "gam_Tar_0.5_te", "gam_Tar_0.6_te", "gam_Tar_0.7_te","gam_Tar_0.8_te", "gam_Tar_0.9_te", 
+                "gam_Dist_npo_te", "gam_Dist_npn_te","gam_Dist_mpo_te", "gam_Dist_mpn_te", 
+                "gam_Dist_spo_te", "gam_Dist_spn_te", "gam_Dist_allo_te", "gam_Dist_alln_te", 
+                "gam_BY_te", "gam_CA_small_te", "gam_CA_med_te", "gam_CA_lar_te", "gam_Ran_nochl_te",
+                "gam_Tar_0.5_nochl_te", "gam_Tar_0.6_nochl_te", "gam_Tar_0.7_nochl_te",
+                "gam_Tar_0.8_nochl_te", "gam_Tar_0.9_nochl_te", "gam_Dist_npo_nochl_te", 
+                "gam_Dist_npn_nochl_te","gam_Dist_mpo_nochl_te","gam_Dist_mpn_nochl_te",
+                "gam_Dist_spo_nochl_te","gam_Dist_spn_nochl_te","gam_Dist_allo_nochl_te",
+                "gam_Dist_alln_nochl","gam_BY_nochl","gam_CA_sm_nochl", 
+                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te" ) 
   
   save(list = ls(pattern = paste0(all_mods, collapse="|")),
        file = "saved_models_n100.RData")  # * 'nXXX' indicates sample size used in similation 
