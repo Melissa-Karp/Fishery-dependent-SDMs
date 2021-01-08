@@ -237,8 +237,8 @@ if("alln" %in% sampling){
   abundxD_alln_nochlte <- predict(gam_Dist_N_alln_nochlte, dat_hist, type="response")
   dat_hist$gam_Dist_alln_nochl_te <- dat_hist$presxD_alln_nochlte * exp(abundxD_alln_nochlte)
   
-  dat_fcast$presxD_alln_nochlte <- predict(gam_Dist_P_allnte, dat_fcast, type="response")
-  abundxD_alln_nochlte <- predict(gam_Dist_N_allnte, dat_fcast, type="response")
+  dat_fcast$presxD_alln_nochlte <- predict(gam_Dist_P_alln_nochlte, dat_fcast, type="response")
+  abundxD_alln_nochlte <- predict(gam_Dist_N_alln_nochlte, dat_fcast, type="response")
   dat_fcast$gam_Dist_alln_nochl_te <- dat_fcast$presxD_alln_nochlte * exp(abundxD_alln_nochlte)
 }
 
@@ -312,4 +312,5 @@ if("CA_lar" %in% sampling) {
   abundxCA_lar_nochlte <- predict(gam_CA_N_lar_nochlte, dat_fcast, type="response")
   dat_fcast$gam_CA_lar_nochl_te<- dat_fcast$presxCA_lar_nochlte * exp(abundxCA_lar_nochlte)
 }
+
 
