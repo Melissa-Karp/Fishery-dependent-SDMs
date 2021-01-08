@@ -155,7 +155,7 @@ if("mpo" %in% sampling){
   
   dat_hist$presxD_mpote <- predict(gam_Dist_P_mpote, dat_hist, type="response")
   abundxD_mpote <- predict(gam_Dist_N_mpote, dat_hist, type="response")
-  dat_hist$gam_Dist_mpo_te <- dat_hist$presxD_mpote * exp(abundxD_mpo)
+  dat_hist$gam_Dist_mpo_te <- dat_hist$presxD_mpote * exp(abundxD_mpote)
   
   dat_fcast$presxD_mpote <- predict(gam_Dist_P_mpote, dat_fcast, type="response")
   abundxD_mpote <- predict(gam_Dist_N_mpote, dat_fcast, type="response")
