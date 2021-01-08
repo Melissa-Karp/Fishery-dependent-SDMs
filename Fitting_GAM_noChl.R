@@ -237,8 +237,8 @@
       abundxD_alln_nochl <- predict(gam_Dist_N_alln_nochl, dat_hist, type="response")
       dat_hist$gam_Dist_alln_nochl <- dat_hist$presxD_alln_nochl * exp(abundxD_alln_nochl)
       
-      dat_fcast$presxD_alln_nochl <- predict(gam_Dist_P_alln, dat_fcast, type="response")
-      abundxD_alln_nochl <- predict(gam_Dist_N_alln, dat_fcast, type="response")
+      dat_fcast$presxD_alln_nochl <- predict(gam_Dist_P_alln_nochl, dat_fcast, type="response")
+      abundxD_alln_nochl <- predict(gam_Dist_N_alln_nochl, dat_fcast, type="response")
       dat_fcast$gam_Dist_alln_nochl <- dat_fcast$presxD_alln_nochl * exp(abundxD_alln_nochl)
     }
     
