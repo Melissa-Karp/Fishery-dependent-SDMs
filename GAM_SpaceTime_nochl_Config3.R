@@ -139,11 +139,11 @@ if("npn" %in% sampling){
   
   dat_hist$presxD_npn_nochlte <- predict(gam_Dist_P_npn_nochlte, dat_hist, type="response")
   abundxD_npn_nochlte <- predict(gam_Dist_N_npn_nochlte, dat_hist, type="response")
-  dat_hist$gam_Dist_npn_nochl_teM <- dat_hist$presxD_npn_nochlte * exp(abundxD_npn_nochlte)
+  dat_hist$gam_Dist_npn_nochl_te <- dat_hist$presxD_npn_nochlte * exp(abundxD_npn_nochlte)
   
   dat_fcast$presxD_npn_nochlte <- predict(gam_Dist_P_npn_nochlte, dat_fcast, type="response")
   abundxD_npn_nochlte <- predict(gam_Dist_N_npn_nochlte, dat_fcast, type="response")
-  dat_fcast$gam_Dist_npn_nochl_teM <- dat_fcast$presxD_npn_nochlte * exp(abundxD_npn_nochlte)
+  dat_fcast$gam_Dist_npn_nochl_te <- dat_fcast$presxD_npn_nochlte * exp(abundxD_npn_nochlte)
 }
 
 #Dist sampling - MPO
