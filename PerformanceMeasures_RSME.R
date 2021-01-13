@@ -23,7 +23,7 @@ sdm_rmse <- function(dat_hist, dat_fcast) {
     sqrt(mean((p - o)^2)) / mean(o)
   }
   
-all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
+all_mods <-   c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
                 "gam_Tar_0.9", "gam_Dist_npo", "gam_Dist_npn","gam_Dist_mpo", "gam_Dist_mpn",
                 "gam_Dist_spo", "gam_Dist_spn", "gam_Dist_allo", "gam_Dist_alln", 
                 "gam_BY", "gam_CA_small", "gam_CA_med", "gam_CA_lar","brt_Ran","brt_Tar_0.5",
@@ -47,8 +47,8 @@ all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.
                 "gam_Tar_0.8_nochl_te", "gam_Tar_0.9_nochl_te", "gam_Dist_npo_nochl_te", 
                 "gam_Dist_npn_nochl_te","gam_Dist_mpo_nochl_te","gam_Dist_mpn_nochl_te",
                 "gam_Dist_spo_nochl_te","gam_Dist_spn_nochl_te","gam_Dist_allo_nochl_te",
-                "gam_Dist_alln_nochl","gam_BY_nochl","gam_CA_sm_nochl", 
-                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te" )
+                "gam_Dist_alln_nochl_te","gam_BY_nochl_te","gam_CA_sm_nochl_te", 
+                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te")
   
   mods <- names(dat_hist)[names(dat_hist) %in% all_mods]   #which of the possible models have been run
   
