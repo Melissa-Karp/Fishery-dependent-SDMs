@@ -128,8 +128,8 @@ dat_hist_CA_la<-dat_hist[dat_hist$Closed_sampled_3>0,]
                 "gam_Tar_0.8_nochl_te", "gam_Tar_0.9_nochl_te", "gam_Dist_npo_nochl_te", 
                 "gam_Dist_npn_nochl_te","gam_Dist_mpo_nochl_te","gam_Dist_mpn_nochl_te",
                 "gam_Dist_spo_nochl_te","gam_Dist_spn_nochl_te","gam_Dist_allo_nochl_te",
-                "gam_Dist_alln_nochl","gam_BY_nochl","gam_CA_sm_nochl", 
-                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te" ) 
+                "gam_Dist_alln_nochl_te","gam_BY_nochl_te","gam_CA_sm_nochl_te", 
+                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te") 
   
   save(list = ls(pattern = paste0(all_mods, collapse="|")),
        file = "saved_models_n100.RData")  # * 'nXXX' indicates sample size used in similation 
