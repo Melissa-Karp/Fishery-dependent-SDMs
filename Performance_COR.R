@@ -61,7 +61,7 @@ sdm_cor <- function(dat_hist, dat_fcast) {
   # Calculate COR, and plot time series
   
   #Hist
-  par(mfrow=c(ceiling(length(mods)/3),3), mar=c(2.5,4,2.5,1))
+  par(mfrow=c(3,3), mar=c(2.5,4,2.5,1))
   
   for (m in mods) {
     cor_abund_all$cor_hist[cor_abund_all$model==m]  <- round(COR(dat_hist$abundance, dat_hist[,m]),3)
@@ -83,7 +83,7 @@ sdm_cor <- function(dat_hist, dat_fcast) {
   }
   
   #Fcast
-  par(mfrow=c(ceiling(length(mods)/3),3), mar=c(2.5,4,2.5,1))
+  par(mfrow=c(3,3), mar=c(2.5,4,2.5,1))
   
   for (m in mods) {
     ann_obs <- aggregate(abundance~year, dat=dat_fcast, FUN="sum")
@@ -100,7 +100,7 @@ sdm_cor <- function(dat_hist, dat_fcast) {
     }
   }
   
-  par(mfrow=c(ceiling(length(mods)/3),3), mar=c(2.5,4,2.5,1))
+  par(mfrow=c(3,3), mar=c(2.5,4,2.5,1))
   
   for (m in mods) {  #plot degregdation of COR over time (if any)
     plot(cor_abund_all_y$year, cor_abund_all_y[,m], type="l", lwd=2, col="red",
