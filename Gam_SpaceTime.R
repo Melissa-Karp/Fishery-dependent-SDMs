@@ -219,7 +219,7 @@ if("allo" %in% sampling){
   
   dat_hist$presxD_allote <- predict(gam_Dist_P_allote, dat_hist, type="response")
   abundxD_allote <- predict(gam_Dist_N_allote, dat_hist, type="response")
-  dat_hist$gam_Dist_allote <- dat_hist$presxD_allote * exp(abundxD_allote)
+  dat_hist$gam_Dist_allo_te <- dat_hist$presxD_allote * exp(abundxD_allote)
   
   dat_fcast$presxD_allote <- predict(gam_Dist_P_allote, dat_fcast, type="response")
   abundxD_allote <- predict(gam_Dist_N_allote, dat_fcast, type="response")
