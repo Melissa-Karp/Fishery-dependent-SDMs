@@ -42,8 +42,8 @@ sdm_cor <- function(dat_hist, dat_fcast) {
                 "gam_Tar_0.8_nochl_te", "gam_Tar_0.9_nochl_te", "gam_Dist_npo_nochl_te", 
                 "gam_Dist_npn_nochl_te","gam_Dist_mpo_nochl_te","gam_Dist_mpn_nochl_te",
                 "gam_Dist_spo_nochl_te","gam_Dist_spn_nochl_te","gam_Dist_allo_nochl_te",
-                "gam_Dist_alln_nochl","gam_BY_nochl","gam_CA_sm_nochl", 
-                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te")  #all possible models
+                "gam_Dist_alln_nochl_te","gam_BY_nochl_te","gam_CA_sm_nochl_te", 
+                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te") #all possible models
   
   mods <- names(dat_hist)[names(dat_hist) %in% all_mods]   #which of the possible models have been run
   
