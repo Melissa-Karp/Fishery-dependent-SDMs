@@ -1,5 +1,5 @@
 # Fishery-dependent-SDMs
-Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change
+Code for project looking at impact of using fishery-dependent data in SDM and forecasting distributions under future climate change. The code here simulates 18 different sampling scenarios, and then fits two different model algorithms (BRT and GAMs) to each of the 18 datasets. For each model type, we fit each using 6 different covariate configurations (Full env cov only, partial env cov (nochl), Full env + Spacetime, Partial + Spacetime, Full + Space, Partial + Space). These leads to a possible 216 models which can be fit!!
 
 USE THESE FILES: 
 1. DistancetoPorts.R: This code calculates the distance from every cell in the ROMS extent to 5 different fishing ports along the US West Coasts of CA, OR, and WA. Conversely, you can use the Dist_to_Port.csv file directly (which was created from running the Rscript).
