@@ -309,7 +309,7 @@ if("CA_lar" %in% sampling) {
   abundxCA_lar_nochlte <- predict(gam_CA_N_lar_nochlte, dat_hist, type="response")
   dat_hist$gam_CA_lar_nochl_te <- dat_hist$presxCA_lar_nochlte * exp(abundxCA_lar_nochlte)
   
-  dat_fcast$presxCA_lar_nochl <- predict(gam_CA_P_lar_nochlte, dat_fcast, type="response")
+  dat_fcast$presxCA_lar_nochlte <- predict(gam_CA_P_lar_nochlte, dat_fcast, type="response")
   abundxCA_lar_nochlte <- predict(gam_CA_N_lar_nochlte, dat_fcast, type="response")
   dat_fcast$gam_CA_lar_nochl_te<- dat_fcast$presxCA_lar_nochlte * exp(abundxCA_lar_nochlte)
 }
