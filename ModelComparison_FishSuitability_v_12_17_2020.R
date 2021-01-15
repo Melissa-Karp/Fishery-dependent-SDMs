@@ -57,79 +57,159 @@ dat_hist_CA_la<-dat_hist[dat_hist$Closed_sampled_3>0,]
 ###########################
 #sampling scenario options: ran, tar_0.5, tar_0.6, tar_0.7, tar_0.8, tar_0.9, npo, npn, mpo,
 # mpn, spo, spn, allo, alln, BY, CA_sm, CA_med, CA_lar
-#total of 18 different sampling scenarios/rules X 2 model algorithms x 2 covariate combinations, and 2 additional GAMS with spacetime tensors
-#total of 108 possible models
+#total of 18 different sampling scenarios/rules X 2 model algorithms x 6 covariate configurations
+#total of 216 possible models
+
 
 #NOTE: if you are running individual models (not all of them) then will need to
 # go into each fitting code and "#" the "PlOTS" section out and turn on the relevant 
 #lines for the specific models to plot just those models being run for it to work 
   
+ ### GAMS #####
   #### GAMS - Full Model #####
-  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
-                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
-                "CA_sm", "CA_med", "CA_lar")
-  source("Fitting_GAMs.R") 
-  
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_GAMs.R") 
+    
   #### GAMS - Missing Covariate Model #####
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_GAM_noChl.R") 
+    
+  #### GAMS - Full Model time-space tensor #####
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_SpaceTime_Config3.R") 
+
+  #### GAMS - Partial Model time-space tensor #####
+    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                  "CA_sm", "CA_med", "CA_lar")
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_SpaceTime_nochl_Config3.R") 
+
+  #### GAMS - Full Model Space Smoother #####
   sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                 "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                 "CA_sm", "CA_med", "CA_lar")
-  source("Fitting_GAM_noChl.R") 
-  
-  #### GAMS - Full Model time-space tensor #####
-    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
-                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
-                  "CA_sm", "CA_med", "CA_lar")
-    source("GAM_SpaceTime.R") 
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_Space_Smoother.R") 
 
-  #### GAMS - Full Model time-space tensor #####
-    sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
-                  "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
-                  "CA_sm", "CA_med", "CA_lar")
-    source("GAM_nochl_SpaceTime.R") 
+  #### GAMS - Partial Model time-space tensor #####
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/GAM_nochl_Space_Smoother.R") 
 
+ ###BRTS ####  
   #### Boosted Regression Trees (BRTs) - Full Model #####
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("Fitting_BRTs.R") 
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRTs.R") 
 
   #### Boosted Regression Trees (BRTs) - Missing Covariate Model #####
     sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
                   "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
                   "CA_sm", "CA_med", "CA_lar")
-    source("Fitting_BRT_noChl.R") 
+    source("~/DisMAP project/Location, Location, Location/Location Workshop/Fitting_BRT_noChl.R") 
+
+  #### Boosted Regression Trees (BRTs) - Full Covariate Model + Spacetime #####
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/BRT_spacetime.R") 
+  
+  #### Boosted Regression Trees (BRTs) - Missing Covariate Model + Spacetime#####
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/BRT_SpaceTime_nochl.R") 
+
+  #### Boosted Regression Trees (BRTs) - Full Covariate Model + SPACE #####
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/BRT_Space.R") 
+  
+  #### Boosted Regression Trees (BRTs) - Missing Covariate Model + SPACE #####
+  sampling <- c("ran", "tar_0.5", "tar_0.6", "tar_0.7", "tar_0.8", "tar_0.9",
+                "npo", "npn", "mpo", "mpn", "spo", "spn", "allo", "alln", "BY", 
+                "CA_sm", "CA_med", "CA_lar")
+  source("~/DisMAP project/Location, Location, Location/Location Workshop/BRT_Space_nochl.R") 
+
 
   #### save the Rdata to load later ####
-  saveRDS(dat_hist, "dat_hist_results_full.rds")  # * 'full' [full models] or 'temp' [temp-only models]
+  saveRDS(dat_hist, "dat_hist_results_full.rds")  
   saveRDS(dat_fcast, "dat_fcast_results_full.rds")
   
-  all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
+ all_mods <- c("gam_Ran", "gam_Tar_0.5", "gam_Tar_0.6", "gam_Tar_0.7","gam_Tar_0.8", 
                 "gam_Tar_0.9", "gam_Dist_npo", "gam_Dist_npn","gam_Dist_mpo", "gam_Dist_mpn",
                 "gam_Dist_spo", "gam_Dist_spn", "gam_Dist_allo", "gam_Dist_alln", 
-                "gam_BY", "gam_CA_small", "gam_CA_med", "gam_CA_lar","brt_Ran","brt_Tar_0.5",
-                "brt_Tar_0.6", "brt_Tar_0.7", "brt_Tar_0.8", "brt_Tar_0.9", "brt_Dist_npo",
-                "brt_Dist_npn","brt_Dist_mpo","brt_Dist_mpn","brt_Dist_spo","brt_Dist_spn",
-                "brt_Dist_allo","brt_Dist_alln", "brt_BY", "brt_CA_sm", "brt_CA_med", "brt_CA_lar",
+                "gam_BY", "gam_CA_small", "gam_CA_med", "gam_CA_lar",
+                
                 "gam_Ran_nochl", "gam_Tar_0.5_nochl", "gam_Tar_0.6_nochl", "gam_Tar_0.7_nochl",
                 "gam_Tar_0.8_nochl", "gam_Tar_0.9_nochl", "gam_Dist_npo_nochl", "gam_Dist_npn_nochl",
                 "gam_Dist_mpo_nochl","gam_Dist_mpn_nochl","gam_Dist_spo_nochl","gam_Dist_spn_nochl",
                 "gam_Dist_allo_nochl", "gam_Dist_alln_nochl","gam_BY_nochl","gam_CA_sm_nochl", 
-                "gam_CA_med_nochl", "gam_CA_lar_nochl","brt_Ran_nochl", "brt_Tar_0.5_nochl", 
-                "brt_Tar_0.6_nochl", "brt_Tar_0.7_nochl", "brt_Tar_0.8_nochl", "brt_Tar_0.9_nochl",
-                "brt_Dist_npo_nochl", "brt_Dist_npn_nochl","brt_Dist_mpo_nochl","brt_Dist_mpn_nochl",
-                "brt_Dist_spo_nochl","brt_Dist_spn_nochl","brt_Dist_allo_nochl", "brt_Dist_alln_nochl",
-                "brt_BY_nochl", "brt_CA_sm_nochl","brt_CA_med_nochl", "brt_CA_lar_nochl", "gam_Ran_te", 
-                "gam_Tar_0.5_te", "gam_Tar_0.6_te", "gam_Tar_0.7_te","gam_Tar_0.8_te", "gam_Tar_0.9_te", 
-                "gam_Dist_npo_te", "gam_Dist_npn_te","gam_Dist_mpo_te", "gam_Dist_mpn_te", 
-                "gam_Dist_spo_te", "gam_Dist_spn_te", "gam_Dist_allo_te", "gam_Dist_alln_te", 
-                "gam_BY_te", "gam_CA_small_te", "gam_CA_med_te", "gam_CA_lar_te", "gam_Ran_nochl_te",
-                "gam_Tar_0.5_nochl_te", "gam_Tar_0.6_nochl_te", "gam_Tar_0.7_nochl_te",
+                "gam_CA_med_nochl", "gam_CA_lar_nochl",
+                
+                "gam_Ran_te","gam_Tar_0.5_te", "gam_Tar_0.6_te", "gam_Tar_0.7_te","gam_Tar_0.8_te", 
+                "gam_Tar_0.9_te", "gam_Dist_npo_te", "gam_Dist_npn_te","gam_Dist_mpo_te", 
+                "gam_Dist_mpn_te","gam_Dist_spo_te", "gam_Dist_spn_te", "gam_Dist_allo_te", 
+                "gam_Dist_alln_te", "gam_BY_te", "gam_CA_small_te", "gam_CA_med_te", "gam_CA_lar_te",
+                
+                "gam_Ran_nochl_te","gam_Tar_0.5_nochl_te", "gam_Tar_0.6_nochl_te", "gam_Tar_0.7_nochl_te",
                 "gam_Tar_0.8_nochl_te", "gam_Tar_0.9_nochl_te", "gam_Dist_npo_nochl_te", 
                 "gam_Dist_npn_nochl_te","gam_Dist_mpo_nochl_te","gam_Dist_mpn_nochl_te",
                 "gam_Dist_spo_nochl_te","gam_Dist_spn_nochl_te","gam_Dist_allo_nochl_te",
                 "gam_Dist_alln_nochl_te","gam_BY_nochl_te","gam_CA_sm_nochl_te", 
-                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te") 
+                "gam_CA_med_nochl_te", "gam_CA_lar_nochl_te", 
+                
+                "gam_Ran_S","gam_Tar_0.5_S", "gam_Tar_0.6_S", "gam_Tar_0.7_S","gam_Tar_0.8_S", 
+                "gam_Tar_0.9_S", "gam_Dist_npo_S", "gam_Dist_npn_S","gam_Dist_mpo_S", 
+                "gam_Dist_mpn_S","gam_Dist_spo_S", "gam_Dist_spn_S", "gam_Dist_allo_S", 
+                "gam_Dist_alln_S", "gam_BY_S", "gam_CA_small_S", "gam_CA_med_S", "gam_CA_lar_S",
+                
+                "gam_Ran_nochl_S","gam_Tar_0.5_nochl_S", "gam_Tar_0.6_nochl_S", "gam_Tar_0.7_nochl_S",
+                "gam_Tar_0.8_nochl_S", "gam_Tar_0.9_nochl_S", "gam_Dist_npo_nochl_S", 
+                "gam_Dist_npn_nochl_S","gam_Dist_mpo_nochl_S","gam_Dist_mpn_nochl_S",
+                "gam_Dist_spo_nochl_S","gam_Dist_spn_nochl_S","gam_Dist_allo_nochl_S",
+                "gam_Dist_alln_nochl_S","gam_BY_nochl_S","gam_CA_sm_nochl_S", 
+                "gam_CA_med_nochl_S", "gam_CA_lar_nochl_S",
+                
+                "brt_Ran","brt_Tar_0.5","brt_Tar_0.6", "brt_Tar_0.7", "brt_Tar_0.8", "brt_Tar_0.9", 
+                "brt_Dist_npo","brt_Dist_npn","brt_Dist_mpo","brt_Dist_mpn","brt_Dist_spo","brt_Dist_spn",
+                "brt_Dist_allo","brt_Dist_alln", "brt_BY", "brt_CA_sm", "brt_CA_med", "brt_CA_lar",
+                
+                "brt_Ran_nochl", "brt_Tar_0.5_nochl", "brt_Tar_0.6_nochl", "brt_Tar_0.7_nochl", 
+                "brt_Tar_0.8_nochl", "brt_Tar_0.9_nochl", "brt_Dist_npo_nochl", "brt_Dist_npn_nochl",
+                "brt_Dist_mpo_nochl","brt_Dist_mpn_nochl", "brt_Dist_spo_nochl","brt_Dist_spn_nochl",
+                "brt_Dist_allo_nochl", "brt_Dist_alln_nochl","brt_BY_nochl", "brt_CA_sm_nochl",
+                "brt_CA_med_nochl", "brt_CA_lar_nochl",
+                
+                "brt_Ran_te","brt_Tar_0.5_te","brt_Tar_0.6_te", "brt_Tar_0.7_te", "brt_Tar_0.8_te", "brt_Tar_0.9_te", 
+                "brt_Dist_npo_te","brt_Dist_npn_te","brt_Dist_mpo_te","brt_Dist_mpn_te","brt_Dist_spo_te",
+                "brt_Dist_spn_te","brt_Dist_allo_te","brt_Dist_alln_te", "brt_BY_te", "brt_CA_sm_te",
+                "brt_CA_med_te", "brt_CA_lar_te",
+                
+                "brt_Ran_nochl_te", "brt_Tar_0.5_nochl_te", "brt_Tar_0.6_nochl_te", "brt_Tar_0.7_nochl_te", 
+                "brt_Tar_0.8_nochl_te", "brt_Tar_0.9_nochl_te", "brt_Dist_npo_nochl_te", "brt_Dist_npn_nochl_te",
+                "brt_Dist_mpo_nochl_te","brt_Dist_mpn_nochl_te", "brt_Dist_spo_nochl_te","brt_Dist_spn_nochl_te",
+                "brt_Dist_allo_nochl_te", "brt_Dist_alln_nochl_te","brt_BY_nochl_te", "brt_CA_sm_nochl_te",
+                "brt_CA_med_nochl_te", "brt_CA_lar_nochl_te",
+                
+                "brt_Ran_S","brt_Tar_0.5_S","brt_Tar_0.6_S", "brt_Tar_0.7_S", "brt_Tar_0.8_S", "brt_Tar_0.9_S", 
+                "brt_Dist_npo_S","brt_Dist_npn_S","brt_Dist_mpo_S","brt_Dist_mpn_S","brt_Dist_spo_S",
+                "brt_Dist_spn_S","brt_Dist_allo_S","brt_Dist_alln_S", "brt_BY_S", "brt_CA_sm_S",
+                "brt_CA_med_S", "brt_CA_lar_S",
+                
+                "brt_Ran_nochl_S", "brt_Tar_0.5_nochl_S", "brt_Tar_0.6_nochl_S", "brt_Tar_0.7_nochl_S", 
+                "brt_Tar_0.8_nochl_S", "brt_Tar_0.9_nochl_S", "brt_Dist_npo_nochl_S", "brt_Dist_npn_nochl_S",
+                "brt_Dist_mpo_nochl_S","brt_Dist_mpn_nochl_S", "brt_Dist_spo_nochl_S","brt_Dist_spn_nochl_S",
+                "brt_Dist_allo_nochl_S", "brt_Dist_alln_nochl_S","brt_BY_nochl_S", "brt_CA_sm_nochl_S",
+                "brt_CA_med_nochl_S", "brt_CA_lar_nochl_S") 
   
   save(list = ls(pattern = paste0(all_mods, collapse="|")),
        file = "saved_models_n100.RData")  # * 'nXXX' indicates sample size used in similation 
