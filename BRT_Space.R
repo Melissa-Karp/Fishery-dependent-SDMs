@@ -452,7 +452,7 @@ if("CA_med" %in% sampling){
                            plot.main=FALSE, verbose = FALSE)
   
   presCAx_med_S <- predict(brt_CA_P_med_S, dat_hist, n.trees=brt_CA_P_med_S$gbm.call$best.trees, type="response")
-  abundCAx_med_S <- exp(predict(brt_CA_N_med, dat_hist, n.trees=brt_CA_N_med_S$gbm.call$best.trees, type="response"))
+  abundCAx_med_S <- exp(predict(brt_CA_N_med_S, dat_hist, n.trees=brt_CA_N_med_S$gbm.call$best.trees, type="response"))
   dat_hist$brt_CA_med_S <- presCAx_med_S * abundCAx_med_S
   
   presCAx_med_S <- predict(brt_CA_P_med_S, dat_fcast, n.trees=brt_CA_P_med_S$gbm.call$best.trees, type="response")
