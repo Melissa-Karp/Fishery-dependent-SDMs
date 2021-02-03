@@ -277,53 +277,53 @@ if("mpn" %in% sampling){
 #Southern Offshore
 if("spo" %in% sampling){
   print("Fitting BRT-SPO_te")
-  brt_dist_P_tepo_te <- gbm.step(data=dat_hist_Dist_tepo,
+  brt_dist_P_spo_te <- gbm.step(data=dat_hist_Dist_spo,
                                gbm.x = c(1:3, 25, 27, 28),
                                gbm.y = 'pres',
                                family = "bernoulli",
                                tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                                plot.main=FALSE, verbose = FALSE)
   
-  brt_dist_N_tepo_te <- gbm.step(data=dat_hist_Dist_tepo[dat_hist_Dist_tepo$abundance>0,],
+  brt_dist_N_spo_te <- gbm.step(data=dat_hist_Dist_spo[dat_hist_Dist_spo$abundance>0,],
                                gbm.x = c(1:3, 25, 27, 28),
                                gbm.y = 'log_abundance',
                                family = "gaussian",
                                tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                                plot.main=FALSE, verbose = FALSE)
   
-  presDx_tepo_te <- predict(brt_dist_P_tepo_te, dat_hist, n.trees=brt_dist_P_tepo_te$gbm.call$best.trees, type="response")
-  abundDx_tepo_te <- exp(predict(brt_dist_N_tepo_te, dat_hist, n.trees=brt_dist_N_tepo_te$gbm.call$best.trees, type="response"))
-  dat_hist$brt_Dist_tepo_te <- presDx_tepo_te * abundDx_tepo_te
+  presDx_spo_te <- predict(brt_dist_P_spo_te, dat_hist, n.trees=brt_dist_P_spo_te$gbm.call$best.trees, type="response")
+  abundDx_spo_te <- exp(predict(brt_dist_N_spo_te, dat_hist, n.trees=brt_dist_N_spo_te$gbm.call$best.trees, type="response"))
+  dat_hist$brt_Dist_spo_te <- presDx_spo_te * abundDx_spo_te
   
-  presDx_tepo_te <- predict(brt_dist_P_tepo_te, dat_fcast, n.trees=brt_dist_P_tepo_te$gbm.call$best.trees, type="response")
-  abundDx_tepo_te <- exp(predict(brt_dist_N_tepo_te, dat_fcast, n.trees=brt_dist_N_tepo_te$gbm.call$best.trees, type="response"))
-  dat_fcast$brt_Dist_tepo_te <- presDx_tepo_te * abundDx_tepo_te
+  presDx_spo_te <- predict(brt_dist_P_spo_te, dat_fcast, n.trees=brt_dist_P_spo_te$gbm.call$best.trees, type="response")
+  abundDx_spo_te <- exp(predict(brt_dist_N_spo_te, dat_fcast, n.trees=brt_dist_N_spo_te$gbm.call$best.trees, type="response"))
+  dat_fcast$brt_Dist_spo_te <- presDx_spo_te * abundDx_spo_te
 }
 
 #Southern Nearshore
 if("spn" %in% sampling){
   print("Fitting BRT-SPN_te")
-  brt_dist_P_tepn_te <- gbm.step(data=dat_hist_Dist_tepn,
+  brt_dist_P_spn_te <- gbm.step(data=dat_hist_Dist_spn,
                                gbm.x = c(1:3, 25, 27, 28),
                                gbm.y = 'pres',
                                family = "bernoulli",
                                tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                                plot.main=FALSE, verbose = FALSE)
   
-  brt_dist_N_tepn_te <- gbm.step(data=dat_hist_Dist_tepn[dat_hist_Dist_tepn$abundance>0,],
+  brt_dist_N_spn_te <- gbm.step(data=dat_hist_Dist_spn[dat_hist_Dist_spn$abundance>0,],
                                gbm.x = c(1:3, 25, 27, 28),
                                gbm.y = 'log_abundance',
                                family = "gaussian",
                                tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                                plot.main=FALSE, verbose = FALSE)
   
-  presDx_tepn_te <- predict(brt_dist_P_tepn_te, dat_hist, n.trees=brt_dist_P_tepn_te$gbm.call$best.trees, type="response")
-  abundDx_tepn_te <- exp(predict(brt_dist_N_tepn_te, dat_hist, n.trees=brt_dist_N_tepn_te$gbm.call$best.trees, type="response"))
-  dat_hist$brt_Dist_tepn_te <- presDx_tepn_te * abundDx_tepn_te
+  presDx_spn_te <- predict(brt_dist_P_spn_te, dat_hist, n.trees=brt_dist_P_spn_te$gbm.call$best.trees, type="response")
+  abundDx_spn_te <- exp(predict(brt_dist_N_spn_te, dat_hist, n.trees=brt_dist_N_spn_te$gbm.call$best.trees, type="response"))
+  dat_hist$brt_Dist_spn_te <- presDx_spn_te * abundDx_spn_te
   
-  presDx_tepn_te <- predict(brt_dist_P_tepn_te, dat_fcast, n.trees=brt_dist_P_tepn_te$gbm.call$best.trees, type="response")
-  abundDx_tepn_te <- exp(predict(brt_dist_N_tepn_te, dat_fcast, n.trees=brt_dist_N_tepn_te$gbm.call$best.trees, type="response"))
-  dat_fcast$brt_Dist_tepn_te <- presDx_tepn_te * abundDx_tepn_te
+  presDx_spn_te <- predict(brt_dist_P_spn_te, dat_fcast, n.trees=brt_dist_P_spn_te$gbm.call$best.trees, type="response")
+  abundDx_spn_te <- exp(predict(brt_dist_N_spn_te, dat_fcast, n.trees=brt_dist_N_spn_te$gbm.call$best.trees, type="response"))
+  dat_fcast$brt_Dist_spn_te <- presDx_spn_te * abundDx_spn_te
 }
 
 #All Offshore
@@ -409,29 +409,29 @@ if("BY" %in% sampling){
 ###Closed Areas + Opt Target Species
 #
 # Small Closed Area
-if("CA_tem" %in% sampling){
+if("CA_sm" %in% sampling){
   print("Fitting BRT-CASM_te")
-  brt_CA_P_tem_te <- gbm.step(data=dat_hist_CA_tem,
+  brt_CA_P_sm_te <- gbm.step(data=dat_hist_CA_sm,
                             gbm.x = c(1:3, 25, 27, 28),
                             gbm.y = 'pres',
                             family = "bernoulli",
                             tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                             plot.main=FALSE, verbose = FALSE)
   
-  brt_CA_N_tem_te <- gbm.step(data=dat_hist_CA_tem[dat_hist_CA_tem$abundance>0,], 
+  brt_CA_N_sm_te <- gbm.step(data=dat_hist_CA_sm[dat_hist_CA_sm$abundance>0,], 
                             gbm.x = c(1:3, 25, 27, 28),
                             gbm.y = 'log_abundance',
                             family = "gaussian",
                             tree.complexity = 3, learning.rate = 0.01, bag.fraction = 0.6,
                             plot.main=FALSE, verbose = FALSE)
   
-  presCAx_tem_te <- predict(brt_CA_P_tem_te, dat_hist, n.trees=brt_CA_P_tem_te$gbm.call$best.trees, type="response")
-  abundCAx_tem_te <- exp(predict(brt_CA_N_tem_te, dat_hist, n.trees=brt_CA_N_tem_te$gbm.call$best.trees, type="response"))
-  dat_hist$brt_CA_tem_te <- presCAx_tem_te * abundCAx_tem_te
+  presCAx_sm_te <- predict(brt_CA_P_sm_te, dat_hist, n.trees=brt_CA_P_sm_te$gbm.call$best.trees, type="response")
+  abundCAx_sm_te <- exp(predict(brt_CA_N_sm_te, dat_hist, n.trees=brt_CA_N_sm_te$gbm.call$best.trees, type="response"))
+  dat_hist$brt_CA_sm_te <- presCAx_sm_te * abundCAx_sm_te
   
-  presCAx_tem_te <- predict(brt_CA_P_tem_te, dat_fcast, n.trees=brt_CA_P_tem_te$gbm.call$best.trees, type="response")
-  abundCAx_tem_te <- exp(predict(brt_CA_N_tem_te, dat_fcast, n.trees=brt_CA_N_tem_te$gbm.call$best.trees, type="response"))
-  dat_fcast$brt_CA_tem_te<- presCAx_tem_te * abundCAx_tem_te
+  presCAx_sm_te <- predict(brt_CA_P_sm_te, dat_fcast, n.trees=brt_CA_P_sm_te$gbm.call$best.trees, type="response")
+  abundCAx_sm_te <- exp(predict(brt_CA_N_sm_te, dat_fcast, n.trees=brt_CA_N_sm_te$gbm.call$best.trees, type="response"))
+  dat_fcast$brt_CA_sm_te<- presCAx_sm_te * abundCAx_sm_te
 }
 
 # Medium Closed Area
@@ -485,3 +485,4 @@ if("CA_lar" %in% sampling){
   abundCAx_lar_te <- exp(predict(brt_CA_N_lar_te, dat_fcast, n.trees=brt_CA_N_lar_te$gbm.call$best.trees, type="response"))
   dat_fcast$brt_CA_lar_te<- presCAx_lar_te * abundCAx_lar_te
 }
+
