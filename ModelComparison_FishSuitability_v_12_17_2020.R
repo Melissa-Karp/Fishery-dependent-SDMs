@@ -243,6 +243,8 @@ dat_hist_CA_lar<-dat_hist[dat_hist$Closed_sampled_3>0,]
   dat_fcast <- readRDS("~/DisMAP project/Location, Location, Location/Location Workshop/dat_fcast_results_full_1_16_21.rds")
   load("~/DisMAP project/Location, Location, Location/Location Workshop/saved_models_full_1_16_21.RData")  #full models
   
+dat_fcast$log_abundance <- log(dat_fcast$abundance)
+
 #### This section runs RMSE for abundance, COG, and correlation, and spatial RMSE####
   dat_fcast_early <- dat_fcast[dat_fcast$year >= 2020 & dat_fcast$year < 2060, ]
   #dat_fcast <- dat_fcast[-c(123)]
