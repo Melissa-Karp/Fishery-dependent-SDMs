@@ -27,7 +27,7 @@ if("ran" %in% sampling) {
   
   presRx_nochl_S <- predict(brt_R_P_nochl_S, dat_hist, n.trees=brt_R_P_nochl_S$gbm.call$best.trees, type="response")
   abundRx_nochl_S <- exp(predict(brt_R_N_nochl_S, dat_hist, n.trees=brt_R_N_nochl_S$gbm.call$best.trees, type="response"))
-  dat_hist$brt_Ran_nochl__S <- presRx_nochl_S * abundRx_nochl_S
+  dat_hist$brt_Ran_nochl_S <- presRx_nochl_S * abundRx_nochl_S
   
   presRx_nochl_S <- predict(brt_R_P_nochl_S, dat_fcast, n.trees=brt_R_P_nochl_S$gbm.call$best.trees, type="response")
   abundRx_nochl_S <- exp(predict(brt_R_N_nochl_S, dat_fcast, n.trees=brt_R_N_nochl_S$gbm.call$best.trees, type="response"))
