@@ -282,8 +282,8 @@ dat_fcast$log_abundance <- log(dat_fcast$abundance)
   rmsecog_y<-data.frame(RMSE_cog$cog_lat_fcast_y)
 
   ##Species Distribution Maps ---- NOT sure this is the best way to map these
-  source("SDM_plot_maps.R") 
-  SDMmaps<-SDM_maps(dat_hist=dat_hist, dat_fcast=dat_fcast, YEARS=c("2000", "2040", "2100"))
+  source("SDM_plots_v2_14_2021.R") 
+  SDMmaps<-SDM_maps(dat_hist=dat_hist, dat_fcast=dat_fcast, YEARS=c(2000,2040,2100)) #if this doesn't work, then can run try running mannually from source code
  
   #spatial error
   source("spatial_error.R") 
